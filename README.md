@@ -19,6 +19,8 @@ A portable machine architecture for the web.
 * Emit binary format
 * Pretty print textual AST
 * Verify soundness of code
+* Interpreter
+* Translation to [LLVM IR backend](http://reviews.llvm.org/D10569)
 
 ### Build with `stack` (recommended)
 
@@ -29,7 +31,7 @@ $ stack install
 ```
 
 ```bash
-$ wasm test/
+$ wasm test/fac.wast
 ```
 
 ### Build with `cabal`
