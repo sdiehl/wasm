@@ -16,51 +16,55 @@ import qualified Data.Text as T
 %lexer { lexerP } { TEnd }
 
 %token
-  ident              { TIdent $$ }
-  integer            { TNat $$ }
-  char               { TChar $$ }
-  str                { TString $$ }
-  real               { TReal $$ }
 
-  '('                { TKey "(" }
-  ')'                { TKey ")" }
-  '.'                { TKey "." }
+ident              { TIdent $$ }
+integer            { TNat $$ }
+char               { TChar $$ }
+str                { TString $$ }
+real               { TReal $$ }
 
-  'i32'              { TKey "i32" }
-  'i64'              { TKey "i64" }
-  'f32'              { TKey "f32" }
-  'f64'              { TKey "f64" }
+'('                { TKey "(" }
+')'                { TKey ")" }
+'.'                { TKey "." }
 
-  'module'           { TKey "module" }
-  'func'             { TKey "func" }
-  'const'            { TKey "const" }
-  'param'            { TKey "param" }
-  'result'           { TKey "result" }
-  'class'            { TKey "class" }
-  'block'            { TKey "block" }
-  'if_else'          { TKey "if_else" }
-  'if'               { TKey "if" }
-  'br_if'            { TKey "br_if" }
-  'nop'              { TKey "nop" }
-  'loop'             { TKey "loop" }
-  'br'               { TKey "br" }
-  'return'           { TKey "return" }
-  'call'             { TKey "call" }
-  'get_local'        { TKey "get_local" }
-  'set_local'        { TKey "set_local" }
+'i32'              { TKey "i32" }
+'i64'              { TKey "i64" }
+'f32'              { TKey "f32" }
+'f64'              { TKey "f64" }
 
-  'add'              { TKey "add" }
-  'mul'              { TKey "mul" }
-  'sub'              { TKey "sub" }
-  'div'              { TKey "div" }
-  'abs'              { TKey "abs" }
-  'eq'               { TKey "eq" }
-  'min'              { TKey "min" }
-  'max'              { TKey "max" }
-  'ceil'             { TKey "ceil" }
-  'sqrt'             { TKey "sqrt" }
+'module'           { TKey "module" }
+'func'             { TKey "func" }
+'const'            { TKey "const" }
+'param'            { TKey "param" }
+'local'            { TKey "local" }
+'result'           { TKey "result" }
+'class'            { TKey "class" }
+'block'            { TKey "block" }
 
-  'unreachable'      { TKey "nop" }
+'loop'             { TKey "loop" }
+'return'           { TKey "return" }
+'call'             { TKey "call" }
+'if_else'          { TKey "if_else" }
+'if'               { TKey "if" }
+'br'               { TKey "br" }
+'br_if'            { TKey "br_if" }
+
+'get_local'        { TKey "get_local" }
+'set_local'        { TKey "set_local" }
+
+'add'              { TKey "add" }
+'mul'              { TKey "mul" }
+'sub'              { TKey "sub" }
+'div'              { TKey "div" }
+'abs'              { TKey "abs" }
+'eq'               { TKey "eq" }
+'min'              { TKey "min" }
+'max'              { TKey "max" }
+'ceil'             { TKey "ceil" }
+'sqrt'             { TKey "sqrt" }
+
+'nop'              { TKey "nop" }
+'unreachable'      { TKey "nop" }
 
 
 %left 'and' 'or' 'xor'

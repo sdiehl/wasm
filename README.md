@@ -8,7 +8,17 @@ A portable machine architecture for the web.
 > advantage of common hardware capabilities available on a wide range of
 > platforms, including mobile and IoT.
 
-https://github.com/WebAssembly/spec/tree/64822f7137e26c0b101ecba9cb1cd93d416c2c74/ml-proto
+* [Design](https://github.com/WebAssembly/design)
+* [Semantics](https://github.com/WebAssembly/design/blob/master/AstSemantics.md)
+* [Reference Implementation](https://github.com/WebAssembly/spec/tree/64822f7137e26c0b101ecba9cb1cd93d416c2c74/ml-proto)
+
+#### Goals
+
+* Parse WebAssembly textual AST
+* Read binary format
+* Emit binary format
+* Pretty print textual AST
+* Verify soundness of code
 
 ### Build with `stack` (recommended)
 

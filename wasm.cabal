@@ -18,6 +18,7 @@ library
     Verify
     Parser
     Lexer
+    Binary
     Entry
 
   build-depends:       
@@ -31,9 +32,8 @@ library
     pretty-show          >= 1.6   && <1.7,
     process              >= 1.1   && <1.3,
     directory            >= 1.2   && <1.3,
-    repline              >= 0.1   && <0.2,
-    haskeline            >= 0.7   && <0.8,
     containers           >= 0.5   && <0.6,
+    cereal               >= 0.5   && <0.6,
     ansi-wl-pprint       -any,
     optparse-applicative
 
