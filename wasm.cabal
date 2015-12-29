@@ -8,14 +8,8 @@ build-type:          Simple
 extra-source-files:  README.md
 cabal-version:       >=1.10
 
-extra-source-files:
-  src/Lexer.x
-  src/Parser.y
-  src/Lexer.hs
-  src/Parser.hs
-
 library 
-  other-modules:
+  exposed-modules:
     Eval
     Monad
     Position
@@ -24,6 +18,7 @@ library
     Verify
     Parser
     Lexer
+    Entry
 
   build-depends:       
     base                 >= 4.6   && <4.9,
@@ -54,13 +49,20 @@ executable wasm
 
   build-depends: 
     wasm                 == 0.1,
+    array                >= 0.5   && <0.6,
+    text                 >= 1.1   && <1.3,
     base                 >= 4.6   && <4.9
 
   hs-source-dirs:        exec
   default-language:      Haskell2010
 
+  build-tools:
+    alex >= 3.1.3,
+    happy >= 1.9.4
+
 test-suite test
   build-depends:       
+    wasm                 == 0.1,
     base                 >= 4.6     && <4.9,
     filepath             >= 1.3     && <1.5,
 
