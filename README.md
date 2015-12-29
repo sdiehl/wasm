@@ -61,7 +61,14 @@ $ stack ghci wasm
 
 #### Codebase
 
-* 
+Core modules
+
+* [Syntax](https://github.com/sdiehl/wasm/blob/master/src/Syntax.hs) - Frontend AST
+* [Eval](https://github.com/sdiehl/wasm/blob/master/src/Eval.hs)  - Interpreter
+* [Parser](https://github.com/sdiehl/wasm/blob/master/src/Parser.y) - Parser
+* [Lexer](https://github.com/sdiehl/wasm/blob/master/src/Lexer.x) - Lexer
+* [Pretty](https://github.com/sdiehl/wasm/blob/master/src/Pretty.hs) - Pretty Printer
+* [Text](https://github.com/sdiehl/wasm/blob/master/src/Test.hs) - Test suite
 
 #### Example
 
