@@ -1,0 +1,54 @@
+name:                wasm
+version:             0.1
+license:             MIT
+license-file:        LICENSE
+author:              Stephen Diehl
+maintainer:          stephen.m.diehl@gmail.com
+build-type:          Simple
+extra-source-files:  README.md
+cabal-version:       >=1.10
+
+executable wasm
+  main-is: Main.hs
+
+  other-modules:
+    Parser
+    Lexer
+
+  build-depends:       
+    base                 >= 4.6   && <4.9,
+    array                >= 0.5   && <0.6,
+    text                 >= 1.1   && <1.3,
+    bytestring           >= 0.10  && <0.11,
+    mtl                  >= 2.2   && <3.0,
+    transformers         >= 0.4   && <0.5,
+    pretty               >= 1.1   && <1.2,
+    pretty-show          >= 1.6   && <1.7,
+    process              >= 1.1   && <1.3,
+    directory            >= 1.2   && <1.3,
+    repline              >= 0.1   && <0.2,
+    haskeline            >= 0.7   && <0.8,
+    containers           >= 0.5   && <0.6,
+    optparse-applicative
+
+  Hs-source-dirs:        src
+  default-language:      Haskell2010
+
+  build-tools:           alex, happy
+
+test-suite test
+  build-depends:       
+    base                 >= 4.6     && <4.9,
+    filepath             >= 1.3     && <1.5,
+
+    -- Testing machinery
+    tasty                >= 0.7,
+    tasty-hunit          >= 0.4.1   && <0.10,
+    tasty-golden         >= 2.2     && <2.4,
+    io-capture           == 0.3
+
+  type:                exitcode-stdio-1.0
+  default-language:    Haskell2010
+
+  Hs-source-dirs:      src
+  main-is:             Test.hs

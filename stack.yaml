@@ -1,0 +1,8 @@
+resolver: lts-3.16
+packages:
+- '.'
+extra-deps:
+- repline-0.1.4.0
+- io-capture-0.3
+flags: {}
+extra-package-dbs: []
