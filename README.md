@@ -11,6 +11,7 @@ A portable machine architecture for the web.
 * [Design](https://github.com/WebAssembly/design)
 * [Semantics](https://github.com/WebAssembly/design/blob/master/AstSemantics.md)
 * [Reference Implementation](https://github.com/WebAssembly/spec/tree/64822f7137e26c0b101ecba9cb1cd93d416c2c74/ml-proto)
+* [Binary Encoding](https://github.com/WebAssembly/design/blob/master/BinaryEncoding.md)
 
 #### Goals
 
@@ -20,6 +21,7 @@ A portable machine architecture for the web.
 * Pretty print textual AST
 * Verify soundness of code
 * Interpreter
+* High level code generation API  for retargeting
 * Translation to [LLVM IR backend](http://reviews.llvm.org/D10569)
 
 ### Build with `stack` (recommended)
@@ -55,4 +57,24 @@ $ stack test
 
 ```bash
 $ stack ghci wasm
+```
+
+#### Codebase
+
+* 
+
+#### Example
+
+```scheme
+(module
+
+  ;; Recursive factorial
+  (func (param i64) (result i64)
+    (if_else (i64.eq (get_local 0) (i64.const 0))
+      (i64.const 1)
+      (i64.mul (get_local 0) (call 0 (i64.sub (get_local 0) (i64.const 1))))
+    )
+  )
+
+)
 ```

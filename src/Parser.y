@@ -44,10 +44,14 @@ real               { TReal $$ }
 'loop'             { TKey "loop" }
 'return'           { TKey "return" }
 'call'             { TKey "call" }
+'call_import'      { TKey "call_impport" }
+'call_indirect'    { TKey "call_indirect" }
 'if_else'          { TKey "if_else" }
 'if'               { TKey "if" }
 'br'               { TKey "br" }
 'br_if'            { TKey "br_if" }
+'tableswitch'      { TKey "tableswitch" }
+'case'             { TKey "case" }
 
 'get_local'        { TKey "get_local" }
 'set_local'        { TKey "set_local" }
