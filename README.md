@@ -13,6 +13,18 @@ A portable machine architecture for the web.
 * [Reference Implementation](https://github.com/WebAssembly/spec/tree/64822f7137e26c0b101ecba9cb1cd93d416c2c74/ml-proto)
 * [Binary Encoding](https://github.com/WebAssembly/design/blob/master/BinaryEncoding.md)
 
+* [ilwasm](https://github.com/WebAssembly/ilwasm)
+* [binaryren](https://github.com/WebAssembly/binaryen)
+* [wassembler](https://github.com/ncbray/wassembler)
+
+* [demo](https://ncbray.github.io/wassembler/)
+* [backend prototype](https://github.com/ncbray/wassembler/blob/master/v8/backend.js)
+
+**Binary Protocol**
+
+* [wasm.h](https://github.com/WebAssembly/sexpr-wasm-prototype/blob/master/src/wasm.h)
+* [wasm-binary-writer.c](https://github.com/WebAssembly/sexpr-wasm-prototype/blob/master/src/wasm-binary-writer.c)
+
 #### Goals
 
 * Parse WebAssembly textual AST

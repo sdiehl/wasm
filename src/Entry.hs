@@ -13,6 +13,8 @@ import Verify
 import Control.Monad
 import Control.Applicative
 
+import Text.Show.Pretty
+
 parse :: String -> Either ParseError [Decl]
 parse fs = runParseM prog (scan fs)
 
@@ -26,7 +28,7 @@ main :: IO ()
 main = do
   ast1 <- file "example1.wasm"
   ast2 <- file "example2.wasm"
-  print ast1
-  print ast2
+  putStrLn $ ppShow ast1
+  putStrLn $ ppShow ast2
   putStrLn "Done"
   return ()
