@@ -9,6 +9,8 @@ module Syntax (
   Value(..),
   Param(..),
   Module(..),
+  Binop(..),
+  Relop(..),
 ) where
 
 import Data.String
@@ -31,9 +33,45 @@ data Expr
   | GetLocal Name
   | SetLocal Name Expr
   | Const Type Value
-  | Mul Type Expr Expr
-  | Sub Type Expr Expr
+  | Bin Binop Type Expr Expr
+  | Rel Relop Type Expr Expr
   | Lit Value
+  deriving (Eq, Show)
+
+data Binop
+  -- Integer Point
+  = Add
+  | Sub
+  | Mul
+  | DivS
+  | DivU
+  | RemS
+  | RemU
+  | And
+  | Or
+  | Xor
+  | Shl
+  | ShrU
+  | ShrS
+
+  -- Floating Point
+  | Div
+  | CopySign
+  | Min
+  | Max
+  deriving (Eq, Show)
+
+data Relop
+  = Eq
+  | Ne
+  | LtS
+  | LtU
+  | LeS
+  | LeU
+  | GtS
+  | GtU
+  | GeS
+  | GeU
   deriving (Eq, Show)
 
 data Value

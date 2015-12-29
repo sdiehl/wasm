@@ -53,14 +53,14 @@ $asigil    = [\$ $alpha]
   "module" | "func" | "export" | "nop" | "block" | "unreachable" |
   "param" | "result" | "i32" | "i64" | "f32" | "f64" | "if" | 
   "if_else" | "br_if" | "loop" | "br" | "return" | "call" | "const" |
-  "mul" | "sub" | "eq" | "get_local" | "set_local"
+  "add" | "mul" | "sub" | "eq" | "div" | "get_local" | "set_local"
 
 @key = @punct | @keywords
 
 tokens :-
 
 $white+;
-"--".*         { TComment }
+";;".*         { TComment }
 \" @string* \" { TString . read }
 @nat           { TNat . read }
 @real          { TReal . read }

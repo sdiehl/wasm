@@ -48,9 +48,18 @@ import qualified Data.Text as T
   'call'             { TKey "call" }
   'get_local'        { TKey "get_local" }
   'set_local'        { TKey "set_local" }
+
+  'add'              { TKey "add" }
   'mul'              { TKey "mul" }
   'sub'              { TKey "sub" }
+  'div'              { TKey "div" }
+  'abs'              { TKey "abs" }
   'eq'               { TKey "eq" }
+  'min'              { TKey "min" }
+  'max'              { TKey "max" }
+  'ceil'             { TKey "ceil" }
+  'sqrt'             { TKey "sqrt" }
+
   'unreachable'      { TKey "nop" }
 
 
@@ -104,6 +113,15 @@ value :: { Value }
  : real                           { VFloat $1 }
  | integer                        { VInt $1 }
 
+binop :: { Binop }
+ : 'mul'                          { Mul }
+ | 'add'                          { Add }
+ | 'sub'                          { Sub }
+ | 'div'                          { Div }
+
+relop :: { Relop }
+ : 'eq'                           { Eq }
+
 expr :: { Expr }
  : 'nop'                          { Nop }
  | 'unreachable'                  { Unreachable }
@@ -123,10 +141,9 @@ expr :: { Expr }
  | 'call' name list(sexp)         { Call $2 $3 }
  | 'get_local' name               { GetLocal $2 }
  | 'set_local' name sexp          { SetLocal $2 $3 }
- | typ '.' 'eq' sexp sexp         { Sub $1 $4 $5 }
+ | typ '.' binop sexp sexp        { Bin $3 $1 $4 $5 }
  | typ '.' 'const' value          { Const $1 $4 }
- | typ '.' 'mul' sexp sexp        { Mul $1 $4 $5 }
- | typ '.' 'sub' sexp sexp        { Sub $1 $4 $5 }
+ | typ '.' relop sexp sexp        { Rel $3 $1 $4 $5 }
 
 -- Utils
 
