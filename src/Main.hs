@@ -4,6 +4,9 @@ import Lexer
 import Parser
 import Monad
 import Syntax
+import Pretty
+import Eval
+import Verify
 
 import Control.Monad
 import Control.Applicative

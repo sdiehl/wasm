@@ -29,6 +29,7 @@ executable wasm
     repline              >= 0.1   && <0.2,
     haskeline            >= 0.7   && <0.8,
     containers           >= 0.5   && <0.6,
+    ansi-wl-pprint       -any,
     optparse-applicative
 
   Hs-source-dirs:        src
