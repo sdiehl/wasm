@@ -8,10 +8,20 @@ build-type:          Simple
 extra-source-files:  README.md
 cabal-version:       >=1.10
 
-executable wasm
-  main-is: Main.hs
+extra-source-files:
+  src/Lexer.x
+  src/Parser.y
+  src/Lexer.hs
+  src/Parser.hs
 
+library 
   other-modules:
+    Eval
+    Monad
+    Position
+    Pretty
+    Syntax
+    Verify
     Parser
     Lexer
 
@@ -32,10 +42,22 @@ executable wasm
     ansi-wl-pprint       -any,
     optparse-applicative
 
-  Hs-source-dirs:        src
+  hs-source-dirs:        src
   default-language:      Haskell2010
 
-  build-tools:           alex, happy
+  build-tools:
+    alex >= 3.1.3,
+    happy >= 1.9.4
+
+executable wasm 
+  main-is:               Main.hs
+
+  build-depends: 
+    wasm                 == 0.1,
+    base                 >= 4.6   && <4.9
+
+  hs-source-dirs:        exec
+  default-language:      Haskell2010
 
 test-suite test
   build-depends:       
@@ -51,5 +73,5 @@ test-suite test
   type:                exitcode-stdio-1.0
   default-language:    Haskell2010
 
-  Hs-source-dirs:      src
+  hs-source-dirs:      src
   main-is:             Test.hs
