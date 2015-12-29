@@ -8,6 +8,8 @@ A portable machine architecture for the web.
 > advantage of common hardware capabilities available on a wide range of
 > platforms, including mobile and IoT.
 
+https://github.com/WebAssembly/spec/tree/64822f7137e26c0b101ecba9cb1cd93d416c2c74/ml-proto
+
 ### Build with `stack` (recommended)
 
 ```bash
