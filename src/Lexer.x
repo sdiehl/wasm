@@ -32,15 +32,16 @@ $lower     = [a-z]
 $upper     = [A-Z]
 $alpha     = [$lower $upper]
 $alphanum  = [$alpha $digit]
-$idchar    = [$alphanum \_]
+$idchar    = [$alphanum \_ \-]
 $graphic   = $printable # $white
+$asigil    = [\$ $alpha]
 
 @gap       = \\ $white+ \\
 @string    = $graphic # [\"] | " " | @gap
 
 @nat       = $digit+
 @real      = $digit+ \. $digit+
-@ident     = $alpha ($idchar* $alphanum)?
+@ident     = $asigil ($idchar* $alphanum)?
 
 
 @punct =
@@ -49,19 +50,10 @@ $graphic   = $printable # $white
   "=" | ">" | ">=" | "[" | "\\" | "]" | "^" | "{" | "}"
 
 @keywords =
-  "Current" | "Result" | "Void" | "action" | "and" | "calls" |
-  "class" | "class_chart" | "client" | "cluster" | "cluster_chart" |
-  "command" | "component" | "constraint" | "creates" |
-  "creation_chart" | "creator" | "deferred" | "delta" |
-  "description" | "dictionary" | "dynamic_diagram" | "effective" |
-  "end" | "ensure" | "event" | "event_chart" | "exists" |
-  "explanation" | "false" | "feature" | "for_all" | "incoming" |
-  "indexing" | "inherit" | "interfaced" | "invariant" | "involves" |
-  "it_holds" | "member_of" | "nameless" | "not" | "object" |
-  "object_group" | "object_stack" | "old" | "or" | "outgoing" |
-  "part" | "persistent" | "query" | "redefined" | "require" |
-  "reused" | "root" | "scenario" | "scenario_chart" |
-  "static_diagram" | "such_that" | "system_chart" | "true" | "xor"
+  "module" | "func" | "export" | "nop" | "block" | "unreachable" |
+  "param" | "result" | "i32" | "i64" | "f32" | "f64" | "if" | 
+  "if_else" | "br_if" | "loop" | "br" | "return" | "call" | "const" |
+  "mul" | "sub" | "eq" | "get_local" | "set_local"
 
 @key = @punct | @keywords
 
@@ -76,7 +68,10 @@ $white+;
 @ident         { TIdent }
 .              { TIllegal }
 
+
+
 {
+
 data Token
   = TIdent String     -- ^ Name/identifier
   | TNat Integer      -- ^ Natural number literal
