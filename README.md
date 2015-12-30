@@ -75,6 +75,15 @@ $ stack ghci wasm
 ```bash
 $ git clone git@github.com:v8/v8.git
 $ make native wasm=on
+
+$ out/native/v8
+V8 version 4.9.0 (candidate)
+d8> buffer = readbuffer('test.bin');
+[object ArrayBuffer]
+d8> module = WASM.instantiateModule(buffer, {});
+{memory: [object ArrayBuffer], test: function test() { [native code] }}
+d8> module.test()
+3
 ```
 
 #### Codebase

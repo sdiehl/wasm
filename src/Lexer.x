@@ -36,16 +36,20 @@ $idchar    = [$alphanum \_ \-]
 $graphic   = $printable # $white
 $asigil    = [\$ $alpha]
 
-$binit     = 0-1
-$octit     = 0-7
-$hexit     = [0-9 A-F a-f]
+@negative    = \-
+@signed      = @negative ?
 
+$binit       = 0-1
+$octit       = 0-7
+$hexit       = [0-9 A-F a-f]
+
+@decimal     = $digit+
 @decimal     = $digit+
 @binary      = $binit+
 @octal       = $octit+
 @hexadecimal = $hexit+
 
-@num         = @decimal | 0[bB] @binary | 0[oO] @octal | 0[xX] @hexadecimal
+@num        = @decimal | 0[bB] @binary | 0[oO] @octal | 0[xX] @hexadecimal
 
 @gap       = \\ $white+ \\
 @string    = $graphic # [\"] | " " | @gap
@@ -72,15 +76,17 @@ $hexit     = [0-9 A-F a-f]
 tokens :-
 
 $white+;
-";;".*             { TComment }
-\" @string* \"     { TString . read }
-@nat               { TNat . read }
-0[oO] @octal       { TNat . read }
-0[xX] @hexadecimal { TNat . read }
-@real              { TReal . read }
-@key               { TKey }
-@ident             { TIdent }
-.                  { TIllegal }
+";;".*                      { TComment }
+\" @string* \"              { TString . read }
+@nat                        { TNat . read }
+0[oO] @octal                { TNat . read }
+0[xX] @hexadecimal          { TNat . read }
+@signed @decimal            { TNat . read }
+@signed 0[xX] @hexadecimal  { TNat . read }
+@real                       { TReal . read }
+@key                        { TKey }
+@ident                      { TIdent }
+.                           { TIllegal }
 
 
 
