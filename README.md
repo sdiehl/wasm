@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://kripken.github.io/talks/wasm3.png"/>
+    <img src="https://kripken.github.io/talks/wasm3.png" width="400px"/>
 </p>
 
 Haskell WebAssembly
