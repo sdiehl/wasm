@@ -20,6 +20,7 @@ A portable machine architecture for the web.
 
 **Binary Protocol**
 
+* [v8 wasm](https://github.com/v8/v8/tree/master/src/wasm)
 * [wasm.h](https://github.com/WebAssembly/sexpr-wasm-prototype/blob/master/src/wasm.h)
 * [wasm-binary-writer.c](https://github.com/WebAssembly/sexpr-wasm-prototype/blob/master/src/wasm-binary-writer.c)
 
@@ -67,6 +68,13 @@ $ stack test
 
 ```bash
 $ stack ghci wasm
+```
+
+#### Building v8
+
+```bash
+$ git clone git@github.com:v8/v8.git
+$ make native
 ```
 
 #### Codebase
