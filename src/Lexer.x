@@ -36,13 +36,23 @@ $idchar    = [$alphanum \_ \-]
 $graphic   = $printable # $white
 $asigil    = [\$ $alpha]
 
+$binit     = 0-1
+$octit     = 0-7
+$hexit     = [0-9 A-F a-f]
+
+@decimal     = $digit+
+@binary      = $binit+
+@octal       = $octit+
+@hexadecimal = $hexit+
+
+@num         = @decimal | 0[bB] @binary | 0[oO] @octal | 0[xX] @hexadecimal
+
 @gap       = \\ $white+ \\
 @string    = $graphic # [\"] | " " | @gap
 
 @nat       = $digit+
 @real      = $digit+ \. $digit+
 @ident     = $asigil ($idchar* $alphanum)?
-
 
 @punct =
   "(" | ")" | "*" | "+" | "," | "-" | "->" | "." | ".." | "..." |
@@ -54,20 +64,23 @@ $asigil    = [\$ $alpha]
   "param" | "result" | "i32" | "i64" | "f32" | "f64" | "if" | 
   "if_else" | "br_if" | "loop" | "br" | "return" | "call" | "const" |
   "add" | "mul" | "sub" | "eq" | "div" | "get_local" | "set_local" |
-  "grow_memory" | "memory_size" | "local" | "tableswitch"
+  "grow_memory" | "memory_size" | "local" | "tableswitch" | "nan" |
+  "infinity"
 
 @key = @punct | @keywords
 
 tokens :-
 
 $white+;
-";;".*         { TComment }
-\" @string* \" { TString . read }
-@nat           { TNat . read }
-@real          { TReal . read }
-@key           { TKey }
-@ident         { TIdent }
-.              { TIllegal }
+";;".*             { TComment }
+\" @string* \"     { TString . read }
+@nat               { TNat . read }
+0[oO] @octal       { TNat . read }
+0[xX] @hexadecimal { TNat . read }
+@real              { TReal . read }
+@key               { TKey }
+@ident             { TIdent }
+.                  { TIllegal }
 
 
 
