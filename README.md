@@ -12,11 +12,9 @@ A portable machine architecture for the web.
 * [Semantics](https://github.com/WebAssembly/design/blob/master/AstSemantics.md)
 * [Reference Implementation](https://github.com/WebAssembly/spec/tree/64822f7137e26c0b101ecba9cb1cd93d416c2c74/ml-proto)
 * [Binary Encoding](https://github.com/WebAssembly/design/blob/master/BinaryEncoding.md)
-
 * [ilwasm](https://github.com/WebAssembly/ilwasm)
 * [binaryren](https://github.com/WebAssembly/binaryen)
 * [wassembler](https://github.com/ncbray/wassembler)
-
 * [demo](https://ncbray.github.io/wassembler/)
 * [backend prototype](https://github.com/ncbray/wassembler/blob/master/v8/backend.js)
 
