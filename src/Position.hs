@@ -1,5 +1,9 @@
 module Position where
 
+-------------------------------------------------------------------------------
+-- Data
+-------------------------------------------------------------------------------
+
 data Position = Position { line :: !Int, col :: !Int }
   deriving (Eq, Ord, Show)
 
@@ -20,9 +24,9 @@ start = Position { line = 1, col = 1 }
 
 move :: Position -> Char -> Position
 move p c = case c of
-            '\t' -> p { col = ((col p + 7) `div` 8) * 8 + 1 }
-            '\n' -> p { col = 1, line = 1 + line p }
-            _    -> p { col = 1 + col p }
+  '\t' -> p { col = ((col p + 7) `div` 8) * 8 + 1 }
+  '\n' -> p { col = 1, line = 1 + line p }
+  _    -> p { col = 1 + col p }
 
 rComb :: Range -> Range -> Range
 rComb r1 r2  = Range { from = rFrom, to = rTo, source = source r1 }
@@ -32,16 +36,18 @@ rComb r1 r2  = Range { from = rFrom, to = rTo, source = source r1 }
 rCombs :: [Range] -> Range
 rCombs = foldl1 rComb
 
+-------------------------------------------------------------------------------
+-- Types
+-------------------------------------------------------------------------------
+
 instance Functor Located where
   fmap f l = l { thing = f (thing l) }
-
---------------------------------------------------------------------------------
 
 class HasLoc t where
   getLoc :: t -> Maybe Range
 
 instance HasLoc Range where
-  getLoc r = Just r
+  getLoc = Just
 
 instance HasLoc (Located a) where
   getLoc r = Just (srcRange r)

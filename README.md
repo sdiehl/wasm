@@ -1,3 +1,7 @@
+<p align="center">
+    <img src="https://kripken.github.io/talks/wasm3.png"/>
+</p>
+
 Haskell WebAssembly
 -------------------
 
@@ -76,7 +80,7 @@ $ stack ghci wasm
 $ git clone git@github.com:v8/v8.git
 $ make native wasm=on
 
-$ out/native/v8
+$ out/native/v8 --expose-wasm
 V8 version 4.9.0 (candidate)
 d8> buffer = readbuffer('test.bin');
 [object ArrayBuffer]
@@ -111,4 +115,21 @@ Core modules
   )
 
 )
+```
+
+
+```scheme
+(module
+  (export "test" 0)
+  (func (result i32)
+    (i32.add (i32.const 1) (i32.const 2))))
+```
+
+
+Will generate
+
+```
+0000000 0101 0100 0102 0009 1500 0000 0500 4000
+0000010 0109 0209 7406 7365 0074               
+000001a
 ```
