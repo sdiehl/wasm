@@ -9,6 +9,7 @@ module Syntax (
   Value(..),
   Param(..),
   Module(..),
+  Unop(..),
   Binop(..),
   Relop(..),
 ) where
@@ -68,6 +69,7 @@ data Expr
   | LoadExtend Extop Expr
   | StoreWrap Wrapop Expr Expr
   | Bin Binop Type Expr Expr
+  | Un Unop Type Expr
   | Rel Relop Type Expr Expr
   | Sel Selop Expr Expr Expr
   | Convert Cvtop Expr

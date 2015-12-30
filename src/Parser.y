@@ -65,7 +65,12 @@ real               { TReal $$ }
 'min'              { TKey "min" }
 'max'              { TKey "max" }
 'ceil'             { TKey "ceil" }
+'trunc'            { TKey "trunc" }
+'floor'            { TKey "floor" }
+'neg'              { TKey "neg" }
 'sqrt'             { TKey "sqrt" }
+'nearest'          { TKey "nearest" }
+'copysign'         { TKey "copysign" }
 
 'nop'              { TKey "nop" }
 'unreachable'      { TKey "nop" }
@@ -126,6 +131,18 @@ binop :: { Binop }
  | 'add'                          { Add }
  | 'sub'                          { Sub }
  | 'div'                          { Div }
+ | 'min'                          { Min }
+ | 'max'                          { Max }
+ | 'copysign'                     { CopySign }
+
+unop :: { Unop }
+ : 'neg'                          { Neg }
+ | 'abs'                          { Abs }
+ | 'ceil'                         { Ceil }
+ | 'floor'                        { Floor }
+ | 'trunc'                        { Trunc }
+ | 'nearest'                      { Nearest }
+ | 'sqrt'                         { Sqrt }
 
 relop :: { Relop }
  : 'eq'                           { Eq }
@@ -150,6 +167,7 @@ expr :: { Expr }
  | 'get_local' name               { GetLocal $2 }
  | 'set_local' name sexp          { SetLocal $2 $3 }
  | typ '.' binop sexp sexp        { Bin $3 $1 $4 $5 }
+ | typ '.' unop sexp              { Un $3 $1 $4 }
  | typ '.' 'const' value          { Const $1 $4 }
  | typ '.' relop sexp sexp        { Rel $3 $1 $4 $5 }
 

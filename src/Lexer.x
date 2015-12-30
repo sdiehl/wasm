@@ -69,7 +69,8 @@ $hexit       = [0-9 A-F a-f]
   "if_else" | "br_if" | "loop" | "br" | "return" | "call" | "const" |
   "add" | "mul" | "sub" | "eq" | "div" | "get_local" | "set_local" |
   "grow_memory" | "memory_size" | "local" | "tableswitch" | "nan" |
-  "infinity"
+  "infinity" | "neg" | "floor" | "trunc" | "nearest" | "sqrt" | 
+  "max" | "min" | "ceil" | "floor" | "copysign" | "abs"
 
 @key = @punct | @keywords
 
@@ -87,7 +88,6 @@ $white+;
 @key                        { TKey }
 @ident                      { TIdent }
 .                           { TIllegal }
-
 
 
 {
