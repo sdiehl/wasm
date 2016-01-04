@@ -24,9 +24,16 @@ A portable machine architecture for the web.
 
 **Binary Protocol**
 
-* [v8 wasm](https://github.com/v8/v8/tree/master/src/wasm)
 * [wasm.h](https://github.com/WebAssembly/sexpr-wasm-prototype/blob/master/src/wasm.h)
 * [wasm-binary-writer.c](https://github.com/WebAssembly/sexpr-wasm-prototype/blob/master/src/wasm-binary-writer.c)
+
+**Chrome**
+
+* [v8 wasm](https://github.com/v8/v8/tree/master/src/wasm)
+
+**Firefox**
+
+* [BaldrMonkey: land initial wasm compilation and testing functions](https://bugzilla.mozilla.org/show_bug.cgi?id=1234985)
 
 #### Goals
 
