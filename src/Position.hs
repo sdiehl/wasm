@@ -4,14 +4,16 @@ module Position where
 -- Data
 -------------------------------------------------------------------------------
 
-data Position = Position { line :: !Int, col :: !Int }
-  deriving (Eq, Ord, Show)
+data Position = Position
+  { line :: !Int
+  , col :: !Int
+  } deriving (Eq, Ord, Show)
 
-data Range
-  = Range { from   :: !Position
-          , to     :: !Position
-          , source :: FilePath }
-  deriving (Eq, Show)
+data Range = Range
+  { from   :: !Position
+  , to     :: !Position
+  , source :: FilePath
+  } deriving (Eq, Show)
 
 data Located a = Located { srcRange :: !Range, thing :: a }
   deriving (Eq, Show)

@@ -70,7 +70,7 @@ $hexit       = [0-9 A-F a-f]
   "add" | "mul" | "sub" | "eq" | "div" | "get_local" | "set_local" |
   "grow_memory" | "memory_size" | "local" | "tableswitch" | "nan" |
   "infinity" | "neg" | "floor" | "trunc" | "nearest" | "sqrt" | 
-  "max" | "min" | "ceil" | "floor" | "copysign" | "abs"
+  "max" | "min" | "ceil" | "floor" | "copysign" | "abs" | "void"
 
 @key = @punct | @keywords
 

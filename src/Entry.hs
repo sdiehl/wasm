@@ -9,9 +9,15 @@ import Syntax
 import Pretty
 import Eval
 import Verify
+import Binary
 
 import Control.Monad
 import Control.Applicative
+
+import Data.Word
+import Data.Char
+import Data.Serialize
+import qualified Data.ByteString as ByteString
 
 import Text.Show.Pretty
 
@@ -27,8 +33,17 @@ file fname = do
 main :: IO ()
 main = do
   ast1 <- file "example1.wasm"
-  ast2 <- file "example2.wasm"
+  {-ast2 <- file "example2.wasm"-}
   putStrLn $ ppShow ast1
-  putStrLn $ ppShow ast2
+  {-putStrLn $ ppShow ast2-}
+
+  case ast1 of
+    Left err -> return ()
+    Right [mod] -> do
+      let bs = encode mod
+      mapM_ print (ByteString.unpack bs)
+      {-fd <- open "example1.bin"-}
+      ByteString.writeFile "example1.bin" bs
+
   putStrLn "Done"
   return ()

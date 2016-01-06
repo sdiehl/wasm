@@ -31,8 +31,10 @@ real               { TReal $$ }
 'i64'              { TKey "i64" }
 'f32'              { TKey "f32" }
 'f64'              { TKey "f64" }
+'void'             { TKey "void" }
 
 'module'           { TKey "module" }
+'export'           { TKey "export" }
 'func'             { TKey "func" }
 'const'            { TKey "const" }
 'param'            { TKey "param" }
@@ -104,6 +106,7 @@ typ :: { Type }
  | 'i64'                           { I64 }
  | 'f32'                           { F32 }
  | 'f64'                           { F64 }
+ | 'void'                          { Void }
 
 param :: { Param }
  : '(' 'param' name typ ')'       { Param (Just $3) $4 }
@@ -117,6 +120,8 @@ func :: { Func }
 
  | '(' 'func' list1(param) ')' 
  { Func Nothing $3 [] }
+
+ | '(' 'export' str value ')'     { Export $3 $4 }
 
 sexp :: { Expr }
  : '(' expr ')'                   { $2 }

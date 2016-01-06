@@ -207,12 +207,14 @@ data Func = Func
   , _params :: [Param]
   , _body :: [Expr]
   }
+  | Export String Value
+  | Import Name Int
   deriving (Eq, Show)
 
 data Module = Module
   { _funcs   :: [Func]
-  , _imports :: [Import]
-  , _exports :: [Export]
+  , _imports :: [Func]
+  , _exports :: [Func]
   }
   deriving (Eq, Show)
 
@@ -222,17 +224,19 @@ data Param
   | Body Expr
   deriving (Eq, Show)
 
-data Import
-  = Import Name Name
-  deriving (Eq, Show)
+{-data Import-}
+  {-= Import Name Name-}
+  {-deriving (Eq, Show)-}
 
-data Export
-  = Export Name Name
-  deriving (Eq, Show)
+{-data Export-}
+  {-= Export Name Name-}
+  {-deriving (Eq, Show)-}
 
 data Type
-  = I32
+  = Void
+  | I32
   | I64
   | F32
   | F64
+  | All
   deriving (Eq, Show)
