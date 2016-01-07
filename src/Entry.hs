@@ -19,6 +19,8 @@ import Data.Char
 import Data.Serialize
 import qualified Data.ByteString as ByteString
 
+import System.Process
+
 import Text.Show.Pretty
 
 parse :: String -> Either ParseError [Decl]
@@ -44,6 +46,8 @@ main = do
       mapM_ print (ByteString.unpack bs)
       {-fd <- open "example1.bin"-}
       ByteString.writeFile "example1.bin" bs
+      system "hexdump example1.bin"
+      return ()
 
   putStrLn "Done"
   return ()

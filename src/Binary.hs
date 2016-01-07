@@ -45,16 +45,12 @@ instance Serialize Decl where
   get = error "get Type"
 
 instance Serialize Func where
-  put (Export _ _) = do
-    putWord8 00
-    putWord8 01
-    putWord8 02
-    putWord8 01
-    putWord8 09
+  put (Export name _) = do
+    putWord32le 15
+    put name
   put (Func ftype fparams body) = do
-    putWord32be 0
-    putWord64be 0
-    putWord32be 0
+    putWord32le 0
+    putWord32le 0
     putWord8 40
     putWord8 09
     putWord8 02
@@ -63,8 +59,24 @@ instance Serialize Func where
 
 instance Serialize Module where
   put (Module funs imps exps) = do
-    put SectionSignatures
-    putWord8 1
-    mapM_ put funs
+    putWord16le 0x0101
+    putWord16le 0x0100
+    putWord16le 0x0102
+    putWord16le 0x0009
+    putWord16le 0x1500
+    putWord16le 0x0000
+    putWord16le 0x0500
+    putWord16le 0x4000
+    {-put SectionFunctionTable-}
+    {-putWord8 0-}
+    {-putWord8 64 -- number of bytes written-}
+    {-putWord8 0-}
+    putWord16le 0x0109
+    putWord16le 0x0209
+    putWord16le 0x7406
+    putWord16le 0x7365
+    putWord16le 0x0074
+    {-putWord8 0-}
+    {-mapM_ put funs-}
     {-putWord8 $ fromIntegral (List.length funs)-}
   get = error "get Module"
