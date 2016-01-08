@@ -1,5 +1,12 @@
 (module
-  (func (result i32)
-    (i32.add (i32.const 1) (i32.const 2)))
   (export "test" 0)
+
+  (func f (param x i64) (result i64)
+  
+    (if_else (i64.eq (get_local 0) (i64.const 0))
+      (i64.const 1)
+      (i64.mul (get_local 0) (call 0 (i64.sub (get_local 0) (i64.const 1))))
+    )
+
   )
+)

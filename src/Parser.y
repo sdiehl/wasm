@@ -128,8 +128,8 @@ sexp :: { Expr }
  | value                          { Lit $1 }
 
 value :: { Value }
- : real                           { VFloat $1 }
- | integer                        { VInt $1 }
+ : real                           { VF32 (undefined $1) }
+ | integer                        { VI32 (fromInteger $1) }
 
 binop :: { Binop }
  : 'mul'                          { Mul }
@@ -171,9 +171,15 @@ expr :: { Expr }
  | 'call' name list(sexp)         { Call $2 $3 }
  | 'get_local' name               { GetLocal $2 }
  | 'set_local' name sexp          { SetLocal $2 $3 }
+
+ | 'i32' '.' 'const' value          { Const I32 $4 }
+ | 'i64' '.' 'const' value        { Const I64 $4 }
+ | 'f32' '.' 'const' value        { Const F32 $4 }
+ | 'f64' '.' 'const' value        { Const F64 $4 }
+
  | typ '.' binop sexp sexp        { Bin $3 $1 $4 $5 }
  | typ '.' unop sexp              { Un $3 $1 $4 }
- | typ '.' 'const' value          { Const $1 $4 }
+ -- | typ '.' 'const' value          { Const $1 $4 }
  | typ '.' relop sexp sexp        { Rel $3 $1 $4 $5 }
 
 -- Utils

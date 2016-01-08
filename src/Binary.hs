@@ -78,14 +78,14 @@ instance Serialize Func where
   put (Func fname fparams fbody) = do
     let (_, bs) = runPutM $ mapM_ put fbody
     let len = Data.ByteString.length bs
-    {-error (show len)-}
 
     putWord8 09
     putWord16le 0x0000          -- function signature index
     putWord32le 0x00000015      -- function name offset
     putWord8 (fromIntegral len) -- function body size
     putWord8 0x00
-    mapM_ put fbody
+
+    putByteString bs
 
   get = error "get Type"
 
@@ -94,11 +94,61 @@ instance Serialize Func where
   {-put (Result x) = return ()-}
   {-get = error "get Type"-}
 
-putOp :: (Binop, Type) -> Put
-putOp (op, I32) = case op of
+relOp :: (Relop, Type) -> Put
+relOp (op, I32) = case op of
+  Eq  -> putWord8 0x4d
+  Ne  -> todo
+  LtS -> todo
+  LtU -> todo
+  LeS -> todo
+  LeU -> todo
+  GtS -> todo
+  GtU -> todo
+  GeS -> todo
+  GeU -> todo
+  Lt  -> todo
+  Le  -> todo
+  Gt  -> todo
+  Ge  -> todo
+relOp (op, I64) = case op of
+  Eq  -> putWord8 0x68
+  Ne  -> todo
+  LtS -> todo
+  LtU -> todo
+  LeS -> todo
+  LeU -> todo
+  GtS -> todo
+  GtU -> todo
+  GeS -> todo
+  GeU -> todo
+  Lt  -> todo
+  Le  -> todo
+  Gt  -> todo
+  Ge  -> todo
+
+binOp :: (Binop, Type) -> Put
+binOp (op, I32) = case op of
   Add      -> putWord8 0x40
   Sub      -> todo
-  Mul      -> todo
+  Mul      -> putWord8 0x42
+  DivS     -> todo
+  DivU     -> todo
+  RemS     -> todo
+  RemU     -> todo
+  And      -> todo
+  Or       -> todo
+  Xor      -> todo
+  Shl      -> todo
+  ShrU     -> todo
+  ShrS     -> todo
+  Div      -> todo
+  CopySign -> todo
+  Min      -> todo
+  Max      -> todo
+binOp (op, I64) = case op of
+  Add      -> putWord8 0x5b
+  Sub      -> putWord8 0x5c
+  Mul      -> putWord8 0x5d
   DivS     -> todo
   DivU     -> todo
   RemS     -> todo
@@ -116,8 +166,10 @@ putOp (op, I32) = case op of
 
 instance Serialize Value where
   put x = case x of
-    VInt y   -> putWord8 (fromIntegral y)
-    VFloat y -> todo
+    VI32 y   -> putWord8 (fromIntegral y)
+    VI64 y   -> putWord8 (fromIntegral y)
+    VF32 y   -> todo
+    VF64 y   -> todo
   get = error "get Type"
 
 instance Serialize Expr where
@@ -127,33 +179,55 @@ instance Serialize Expr where
     Block y1 y2        -> todo
     Break y1 y2        -> todo
     If y1 y2           -> todo
-    IfElse y1 y2 y3    -> todo
+
+    IfElse cond tr fl  -> do
+      putWord8 0x4
+      put cond
+      put tr
+      put fl
+
     BrIf y1 y2 y3      -> todo
     Loop y1 y2 y3      -> todo
     Br y1 y2           -> todo
     Return y           -> todo
-    Call y1 y2         -> todo
+
+    Call fn args       -> do
+      putWord8 0x12
+      mapM_ put args
+
     Const ty val       -> do
       case ty of
         I32 -> do
           putWord8 0x09
           put val
 
+        I64 -> do
+          putWord8 0x0b
+          put val
+
     Lit y              -> todo
     Load y1 y2         -> todo
     Store y1 y2        -> todo
-    GetLocal y         -> todo
+
+    GetLocal y         -> do
+      putWord8 0x0e
+
     SetLocal y1 y2     -> todo
     LoadExtend y1 y2   -> todo
     StoreWrap y1 y2 y3 -> todo
     Un y1 y2 y3        -> todo
-    Rel y1 y2 y3 y4    -> todo
+
+    Rel op ty x1 x2    -> do
+      relOp (op, ty)
+      put x1
+      put x2
+
     Sel y1 y2 y3 y4    -> todo
     Convert y1 y2      -> todo
     Host y1 y2         -> todo
 
     Bin op ty x1 x2 -> do
-      putOp (op, ty)
+      binOp (op, ty)
       put x1
       put x2
 

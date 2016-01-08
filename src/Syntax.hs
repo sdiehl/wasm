@@ -166,8 +166,10 @@ data Hostop
   deriving (Eq, Show)
 
 data Value
-  = VInt Integer
-  | VFloat Double
+  = VI32 Int32
+  | VI64 Int64
+  | VF32 Float
+  | VF64 Double
   deriving (Eq, Show)
 
 data Decl
