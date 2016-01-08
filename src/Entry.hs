@@ -10,6 +10,7 @@ import Pretty
 import Eval
 import Verify
 import Binary
+import Core (toCore)
 
 import Control.Monad
 import Control.Applicative
@@ -42,7 +43,7 @@ main = do
   case ast1 of
     Left err -> return ()
     Right [mod] -> do
-      let bs = encode mod
+      let bs = encode (toCore mod)
       {-mapM_ print (ByteString.unpack bs)-}
       {-fd <- open "example1.bin"-}
       ByteString.writeFile "example1.bin" bs

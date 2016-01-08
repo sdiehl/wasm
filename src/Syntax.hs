@@ -21,33 +21,6 @@ import qualified Data.Text as T
 newtype Name = Name T.Text
   deriving (Eq, Ord, Show, IsString)
 
-{-
-and expr' =
-  | Nop                                     (* do nothing *)
-  | Unreachable                             (* trap *)
-  | Block of expr list                      (* execute in sequence *)
-  | Loop of expr                            (* loop header *)
-  | Break of var * expr option              (* break to n-th surrounding label *)
-  | If of expr * expr * expr                (* conditional *)
-  | Switch of expr * var list * var * expr list   (* table switch *)
-  | Call of var * expr list                 (* call function *)
-  | CallImport of var * expr list           (* call imported function *)
-  | CallIndirect of var * expr * expr list  (* call function through table *)
-  | GetLocal of var                         (* read local variable *)
-  | SetLocal of var * expr                  (* write local variable *)
-  | Load of memop * expr                    (* read memory at address *)
-  | Store of memop * expr * expr            (* write memory at address *)
-  | LoadExtend of extop * expr              (* read memory at address and extend *)
-  | StoreWrap of wrapop * expr * expr       (* wrap and write to memory at address *)
-  | Const of literal                        (* constant *)
-  | Unary of unop * expr                    (* unary arithmetic operator *)
-  | Binary of binop * expr * expr           (* binary arithmetic operator *)
-  | Select of selop * expr * expr * expr    (* branchless conditional *)
-  | Compare of relop * expr * expr          (* arithmetic comparison *)
-  | Convert of cvtop * expr                 (* conversion *)
-  | Host of hostop * expr list              (* host interaction *)
--}
-
 data Expr
   = Nop
   | Unreachable
@@ -212,11 +185,8 @@ data Func = Func
   deriving (Eq, Show)
 
 data Module = Module
-  { _funcs   :: [Func]
-  , _imports :: [Func]
-  , _exports :: [Func]
-  }
-  deriving (Eq, Show)
+  { _funcs :: [Func]
+  } deriving (Eq, Show)
 
 data Param
   = Param (Maybe Name) Type
@@ -224,13 +194,6 @@ data Param
   | Body Expr
   deriving (Eq, Show)
 
-{-data Import-}
-  {-= Import Name Name-}
-  {-deriving (Eq, Show)-}
-
-{-data Export-}
-  {-= Export Name Name-}
-  {-deriving (Eq, Show)-}
 
 data Type
   = Void

@@ -99,7 +99,7 @@ top :: { Decl }
  | sexp                           { ExprDecl $1 }
 
 mod :: { Module }
- : '(' 'module' list(func) ')'    { Module $3 [] [] }
+ : '(' 'module' list(func) ')'    { Module $3 }
 
 typ :: { Type }
  : 'i32'                           { I32 }

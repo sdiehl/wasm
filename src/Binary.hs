@@ -9,7 +9,8 @@ import Data.Serialize
 import Data.Serialize.Put
 import qualified Data.List as List
 
-import Syntax
+import Core
+{-import Syntax-}
 
 -------------------------------------------------------------------------------
 -- Binary Writer
@@ -62,36 +63,32 @@ instance Serialize Type where
   get = error "get Type"
 
 instance Serialize Decl where
-  put (ModDecl mod) = do
-    put mod
+  put (ModDecl mod) = put mod
   put (ExprDecl mod) = do
     undefined
   get = error "get Type"
 
 instance Serialize Func where
-  put (Export name _) = do
-    putWord8 0x74
-    putWord8 0x65
-    putWord8 0x73
-    putWord8 0x74
+  {-put (Export name _) = do-}
+    {-putWord8 0x74-}
+    {-putWord8 0x65-}
+    {-putWord8 0x73-}
+    {-putWord8 0x74-}
 
-  put (Func ftype fparams body) = do
+  put (Func fname fparams fbody) = do
     putWord8 09
     putWord16le 0x0000        -- function signature index
     putWord32le 0x00000015    -- function name offset
     putWord8 0x05             -- function body size
     putWord8 0x00
-    mapM_ put fparams
-    put SectionEnd
+    mapM_ put fbody
 
-  put (Import name _) = do
-    undefined
   get = error "get Type"
 
-instance Serialize Param where
-  put (Body x) = put x
-  put (Result x) = return ()
-  get = error "get Type"
+{-instance Serialize Param where-}
+  {-put (Body x) = put x-}
+  {-put (Result x) = return ()-}
+  {-get = error "get Type"-}
 
 putOp :: (Binop, Type) -> Put
 putOp (op, I32) = case op of
@@ -158,8 +155,20 @@ instance Serialize Expr where
 
   get = error "get Type"
 
+instance Serialize Export where
+  put _ = do
+    putWord8 0x74
+    putWord8 0x65
+    putWord8 0x73
+    putWord8 0x74
+  get = error "get Type"
+
+instance Serialize Import where
+  put = error "get Type"
+  get = error "get Type"
+
 instance Serialize Module where
-  put (Module funs imps exps) = do
+  put (Module funs imports exports) = do
     -- Decode Section
     put SectionSignatures
     putWord8 0x01             -- num signatures
@@ -172,6 +181,8 @@ instance Serialize Module where
     putWord8 1                -- num functions
 
     mapM_ put funs
+    put SectionEnd
+    mapM_ put exports
     {-mapM_ put [(Bin Add I32 (Const I32 (VInt 1)) (Const I32 (VInt 2)))]-}
 
     -- Function[0]
