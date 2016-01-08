@@ -76,10 +76,14 @@ instance Serialize Func where
     {-putWord8 0x74-}
 
   put (Func fname fparams fbody) = do
+    let (_, bs) = runPutM $ mapM_ put fbody
+    let len = Data.ByteString.length bs
+    {-error (show len)-}
+
     putWord8 09
-    putWord16le 0x0000        -- function signature index
-    putWord32le 0x00000015    -- function name offset
-    putWord8 0x05             -- function body size
+    putWord16le 0x0000          -- function signature index
+    putWord32le 0x00000015      -- function name offset
+    putWord8 (fromIntegral len) -- function body size
     putWord8 0x00
     mapM_ put fbody
 
@@ -183,23 +187,8 @@ instance Serialize Module where
     mapM_ put funs
     put SectionEnd
     mapM_ put exports
-    {-mapM_ put [(Bin Add I32 (Const I32 (VInt 1)) (Const I32 (VInt 2)))]-}
+    putWord8 0x00
 
-    -- Function[0]
-    {-putWord8 09-}
-    {-putWord16le 0x0000        -- function signature index-}
-    {-putWord32le 0x00000015    -- function name offset-}
-    {-putWord8 0x05             -- function body size-}
-    {-putWord8 0x00-}
-
-    {-put (Bin Add I32 (Const I32 (VInt 1)) (Const I32 (VInt 2)))-}
-    {-put SectionEnd-}
-
-    -- export name
-    {-putWord8 0x74-}
-    {-putWord8 0x65-}
-    {-putWord8 0x73-}
-    {-putWord8 0x74-}
   get = error "get Module"
 
 todo :: t
