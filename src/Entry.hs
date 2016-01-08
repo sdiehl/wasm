@@ -43,7 +43,7 @@ main = do
     Left err -> return ()
     Right [mod] -> do
       let bs = encode mod
-      mapM_ print (ByteString.unpack bs)
+      {-mapM_ print (ByteString.unpack bs)-}
       {-fd <- open "example1.bin"-}
       ByteString.writeFile "example1.bin" bs
       system "hexdump example1.bin"

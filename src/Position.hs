@@ -67,8 +67,8 @@ instance HasLoc a => HasLoc [a] where
   getLoc = go Nothing
     where
     go x [] = x
-    go Nothing (x : xs)  = go (getLoc x) xs
-    go (Just l) (x : xs) = case getLoc x of
+    go Nothing (x:xs)  = go (getLoc x) xs
+    go (Just l) (x:xs) = case getLoc x of
                              Nothing -> go (Just l) xs
                              Just l1 -> go (Just (rComb l l1)) xs
 
