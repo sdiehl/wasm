@@ -172,14 +172,14 @@ expr :: { Expr }
  | 'get_local' name               { GetLocal $2 }
  | 'set_local' name sexp          { SetLocal $2 $3 }
 
- | 'i32' '.' 'const' value          { Const I32 $4 }
- | 'i64' '.' 'const' value        { Const I64 $4 }
- | 'f32' '.' 'const' value        { Const F32 $4 }
- | 'f64' '.' 'const' value        { Const F64 $4 }
+ -- | 'i32' '.' 'const' value          { Const I32 $4 }
+ -- | 'i64' '.' 'const' value        { Const I64 $4 }
+ -- | 'f32' '.' 'const' value        { Const F32 $4 }
+ -- | 'f64' '.' 'const' value        { Const F64 $4 }
 
  | typ '.' binop sexp sexp        { Bin $3 $1 $4 $5 }
  | typ '.' unop sexp              { Un $3 $1 $4 }
- -- | typ '.' 'const' value          { Const $1 $4 }
+ | typ '.' 'const' value          { Const $1 $4 }
  | typ '.' relop sexp sexp        { Rel $3 $1 $4 $5 }
 
 -- Utils
