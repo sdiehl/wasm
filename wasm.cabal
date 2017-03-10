@@ -57,7 +57,7 @@ executable wasm
 
   build-depends: 
     wasm                 == 0.1,
-    base                 >= 4.6   && <4.9
+    base                 >= 4.6   && <5.0
 
   hs-source-dirs:        exec
   default-language:      Haskell2010
@@ -69,7 +69,7 @@ executable wasm
 test-suite test
   build-depends:       
     wasm                 == 0.1,
-    base                 >= 4.6     && <4.9,
+    base                 >= 4.6     && <5.0,
     filepath             >= 1.3     && <1.5,
 
     -- Testing machinery
