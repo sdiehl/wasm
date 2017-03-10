@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE FlexibleInstances #-}
 
 module Binary where
@@ -15,6 +16,17 @@ import Core
 -------------------------------------------------------------------------------
 -- Binary Writer
 -------------------------------------------------------------------------------
+
+magic :: ByteString
+magic = "\0asm"
+
+magicHex :: Integer
+magicHex = 0x6d736100
+
+magic0 = 0x00  -- '\0'
+magic1 = 0x61  -- 'a'
+magic2 = 0x73  -- 's'
+magic3 = 0x6d  -- 'm'
 
 data WasmSectionType
   = SectionMemory
@@ -247,6 +259,12 @@ instance Serialize Import where
 
 instance Serialize Module where
   put (Module funs imports exports) = do
+    -- Magic
+    putWord8 magic0
+    putWord8 magic1
+    putWord8 magic2
+    putWord8 magic3
+
     -- Decode Section
     put SectionSignatures
     putWord8 0x01             -- num signatures

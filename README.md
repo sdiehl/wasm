@@ -119,7 +119,7 @@ $ make native wasm=on
 $ out/native/v8 --expose-wasm
 V8 version 4.9.0 (candidate)
 d8> buffer = readbuffer('test.bin');
-[object ArrayBuffer]
+[object ArrayBufferr
 d8> module = WASM.instantiateModule(buffer, {});
 {memory: [object ArrayBuffer], test: function test() { [native code] }}
 d8> module.test()
@@ -130,12 +130,13 @@ d8> module.test()
 
 Core modules
 
+* [Entry](https://github.com/sdiehl/wasm/blob/master/src/Entry.hs) - Driver
 * [Syntax](https://github.com/sdiehl/wasm/blob/master/src/Syntax.hs) - Frontend AST
 * [Eval](https://github.com/sdiehl/wasm/blob/master/src/Eval.hs)  - Interpreter
 * [Parser](https://github.com/sdiehl/wasm/blob/master/src/Parser.y) - Parser
 * [Lexer](https://github.com/sdiehl/wasm/blob/master/src/Lexer.x) - Lexer
 * [Pretty](https://github.com/sdiehl/wasm/blob/master/src/Pretty.hs) - Pretty Printer
-* [Text](https://github.com/sdiehl/wasm/blob/master/src/Test.hs) - Test suite
+* [Test](https://github.com/sdiehl/wasm/blob/master/src/Test.hs) - Test suite
 
 #### Example
 
