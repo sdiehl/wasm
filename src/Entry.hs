@@ -1,5 +1,5 @@
 module Entry(
-  main
+  main,
 ) where
 
 import Lexer
@@ -18,14 +18,13 @@ import Control.Applicative
 
 import Data.Word
 import Data.Char
-import Data.List hiding (group)
 import Data.Serialize
 import qualified Data.ByteString as BS
 
 import System.Process
+import System.Environment
 
 import Text.Show.Pretty
-import Numeric (showHex)
 
 parse :: String -> Either ParseError [Decl]
 parse fs = runParseM prog (scan fs)
@@ -38,8 +37,12 @@ file fname = do
 
 main :: IO ()
 main = do
-  ast1 <- file "example1.wasm"
-  {-ast2 <- file "example2.wasm"-}
+  args <- getArgs
+  let input = case args of 
+                 [input] -> input
+                 _ -> "example1.wasm" 
+
+  ast1 <- file input
   putStrLn $ ppShow ast1
   {-putStrLn $ ppShow ast2-}
 
