@@ -10,6 +10,7 @@ import Pretty
 import Eval
 import Verify
 import Binary
+import Hex
 import Core (toCore)
 
 import Control.Monad
@@ -17,12 +18,14 @@ import Control.Applicative
 
 import Data.Word
 import Data.Char
+import Data.List hiding (group)
 import Data.Serialize
-import qualified Data.ByteString as ByteString
+import qualified Data.ByteString as BS
 
 import System.Process
 
 import Text.Show.Pretty
+import Numeric (showHex)
 
 parse :: String -> Either ParseError [Decl]
 parse fs = runParseM prog (scan fs)
@@ -46,7 +49,8 @@ main = do
       let bs = encode (toCore mod)
       {-mapM_ print (ByteString.unpack bs)-}
       {-fd <- open "example1.bin"-}
-      ByteString.writeFile "example1.bin" bs
+      putStrLn $ simpleHex bs
+      BS.writeFile "example1.bin" bs
       system "hexdump example1.bin"
       return ()
 

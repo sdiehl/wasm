@@ -4,7 +4,6 @@
 module Binary where
 
 import Data.Word
-import Data.Word
 import Data.ByteString
 import Data.Serialize
 import Data.Serialize.Put
@@ -23,6 +22,7 @@ magic = "\0asm"
 magicHex :: Integer
 magicHex = 0x6d736100
 
+magic0, magic1, magic2, magic3 :: Word8
 magic0 = 0x00  -- '\0'
 magic1 = 0x61  -- 'a'
 magic2 = 0x73  -- 's'

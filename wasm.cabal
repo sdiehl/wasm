@@ -23,6 +23,7 @@ library
     Verify
     Binary
     Builder
+    Hex
 
   ghc-options:
     -W
