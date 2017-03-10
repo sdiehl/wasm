@@ -5,7 +5,10 @@ license-file:        LICENSE
 author:              Stephen Diehl
 maintainer:          stephen.m.diehl@gmail.com
 build-type:          Simple
-extra-source-files:  README.md
+extra-source-files:  
+  README.md
+  src/Parser.y
+  src/Lexer.x
 cabal-version:       >=1.10
 
 library 
@@ -18,10 +21,12 @@ library
     Pretty
     Syntax
     Verify
-    Parser
-    Lexer
     Binary
     Builder
+
+  other-modules:
+    Parser
+    Lexer
 
   build-depends:       
     base                 >= 4.6   && <4.9,
