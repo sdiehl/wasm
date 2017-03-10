@@ -1,8 +1,3 @@
-module Pretty where
+-- Pretty printer for Textual AST.
 
-import Text.PrettyPrint.ANSI.Leijen
-  ( Doc
-  , int, text, char
-  , (</>), (<//>), (<+>), (<>)
-  , parens
-  )
+module Pretty where
