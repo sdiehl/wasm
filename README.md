@@ -5,6 +5,8 @@
 Haskell WebAssembly
 -------------------
 
+[![Build Status](https://travis-ci.org/haskell-wasm/wasm.svg?branch=master)](https://travis-ci.org/haskell-wasm/wasm)
+
 A portable machine architecture for the web.
 
 > Define a portable, size- and load-time-efficient binary format to serve as a
@@ -15,12 +17,14 @@ A portable machine architecture for the web.
 * [Design](https://github.com/WebAssembly/design)
 * [Semantics](https://github.com/WebAssembly/design/blob/master/AstSemantics.md)
 * [Reference Implementation](https://github.com/WebAssembly/spec/tree/64822f7137e26c0b101ecba9cb1cd93d416c2c74/ml-proto)
-* [Binary Encoding](https://github.com/WebAssembly/design/blob/master/BinaryEncoding.md)
+* [Binary Encoding](http://webassembly.org/docs/binary-encoding/)
 * [ilwasm](https://github.com/WebAssembly/ilwasm)
 * [binaryren](https://github.com/WebAssembly/binaryen)
 * [wassembler](https://github.com/ncbray/wassembler)
 * [demo](https://ncbray.github.io/wassembler/)
 * [backend prototype](https://github.com/ncbray/wassembler/blob/master/v8/backend.js)
+* [WasmExplorer](https://mbebenita.github.io/WasmExplorer/)
+* [Javascript API](http://webassembly.org/docs/js/)
 
 **Binary Protocol**
 
@@ -30,6 +34,9 @@ A portable machine architecture for the web.
 **Chrome**
 
 * [v8 wasm](https://github.com/v8/v8/tree/master/src/wasm)
+
+As of Chrome 56 the flag `#enable-webassembly` can be enabled to add support for
+WebAssembly.
 
 **Firefox**
 

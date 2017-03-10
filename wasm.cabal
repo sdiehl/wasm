@@ -5,7 +5,10 @@ license-file:        LICENSE
 author:              Stephen Diehl
 maintainer:          stephen.m.diehl@gmail.com
 build-type:          Simple
-extra-source-files:  README.md
+extra-source-files:  
+  README.md
+  src/Parser.y
+  src/Lexer.x
 cabal-version:       >=1.10
 
 library 
@@ -18,27 +21,34 @@ library
     Pretty
     Syntax
     Verify
-    Parser
-    Lexer
     Binary
     Builder
 
+  ghc-options:
+    -W
+    -Wwarn
+    -fwarn-incomplete-patterns
+
+  other-modules:
+    Parser
+    Lexer
+
   build-depends:       
-    base                 >= 4.6   && <4.9,
+    base                 >= 4.6   && <5.0,
     array                >= 0.5   && <0.6,
     text                 >= 1.1   && <1.3,
     bytestring           >= 0.10  && <0.11,
     mtl                  >= 2.2   && <3.0,
-    transformers         >= 0.4   && <0.5,
+    transformers         >= 0.4   && <0.6,
     pretty               >= 1.1   && <1.2,
     pretty-show          >= 1.6   && <1.7,
-    process              >= 1.1   && <1.3,
-    directory            >= 1.2   && <1.3,
+    process              >= 1.1   && <1.5,
+    directory            >= 1.2   && <1.4,
     containers           >= 0.5   && <0.6,
     binary               >= 0.7   && <0.9,
     cereal               >= 0.4   && <0.6,
     ansi-wl-pprint       >= 0.6   && <0.7,
-    optparse-applicative >= 0.11  && <0.13
+    optparse-applicative >= 0.11  && <0.14
 
   hs-source-dirs:        src
   default-language:      Haskell2010
@@ -52,7 +62,7 @@ executable wasm
 
   build-depends: 
     wasm                 == 0.1,
-    base                 >= 4.6   && <4.9
+    base                 >= 4.6   && <5.0
 
   hs-source-dirs:        exec
   default-language:      Haskell2010
@@ -64,7 +74,7 @@ executable wasm
 test-suite test
   build-depends:       
     wasm                 == 0.1,
-    base                 >= 4.6     && <4.9,
+    base                 >= 4.6     && <5.0,
     filepath             >= 1.3     && <1.5,
 
     -- Testing machinery
@@ -75,6 +85,10 @@ test-suite test
 
   type:                exitcode-stdio-1.0
   default-language:    Haskell2010
+
+  build-tools:
+    alex >= 3.1.3,
+    happy >= 1.9.4
 
   hs-source-dirs:      src
   main-is:             Test.hs

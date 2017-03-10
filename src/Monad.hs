@@ -1,10 +1,9 @@
 module Monad where
 
 import Control.Monad (ap)
-import Control.Applicative
-import qualified Data.Char as Char
-import Data.Char (isAscii)
-import Data.Word (Word8)
+{-import qualified Data.Char as Char-}
+{-import Data.Char (isAscii)-}
+{-import Data.Word (Word8)-}
 
 import Lexer
 
