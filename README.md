@@ -22,6 +22,7 @@ A portable machine architecture for the web.
 * [demo](https://ncbray.github.io/wassembler/)
 * [backend prototype](https://github.com/ncbray/wassembler/blob/master/v8/backend.js)
 * [WasmExplorer](https://mbebenita.github.io/WasmExplorer/)
+* [Javascript API](http://webassembly.org/docs/js/)
 
 **Binary Protocol**
 
@@ -31,6 +32,9 @@ A portable machine architecture for the web.
 **Chrome**
 
 * [v8 wasm](https://github.com/v8/v8/tree/master/src/wasm)
+
+As of Chrome 56 the flag `#enable-webassembly` can be enabled to add support for
+WebAssembly.
 
 **Firefox**
 
