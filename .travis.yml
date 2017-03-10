@@ -10,10 +10,10 @@ cache:
 matrix:
   fast_finish: true
   include:
-    - env: BUILD=stack STACK_BUILD_MODE="test" STACK_BUILD_ARGS="--bench --no-run-benchmarks" STACK_ARGS="" STACK_YAML=stack.yaml
+    - env: BUILD=stack STACK_BUILD_MODE="test" STACK_BUILD_ARGS="--bench --no-run-benchmarks" STACK_ARGS="-Wwarn" STACK_YAML=stack.yaml
       compiler: ": #stack 8.0.1"
       addons: {apt: {packages: [libgmp-dev]}}
-    - env: BUILD=stack STACK_BUILD_MODE="test" STACK_BUILD_ARGS="--bench --no-run-benchmarks" STACK_ARGS="--resolver nightly" STACK_YAML=stack.yaml
+    - env: BUILD=stack STACK_BUILD_MODE="test" STACK_BUILD_ARGS="--bench --no-run-benchmarks" STACK_ARGS="-WWarn --resolver nightly" STACK_YAML=stack.yaml
       compiler: ": #stack 8.0.2"
       addons: {apt: {packages: [libgmp-dev]}}
     #- env: BUILD=cabal CABALVER=1.24 GHCVER=8.0.1
