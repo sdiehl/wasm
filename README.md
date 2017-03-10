@@ -24,8 +24,8 @@ A portable machine architecture for the web.
 
 **Binary Protocol**
 
-* [wasm.h](https://github.com/WebAssembly/sexpr-wasm-prototype/blob/master/src/wasm.h)
-* [wasm-binary-writer.c](https://github.com/WebAssembly/sexpr-wasm-prototype/blob/master/src/wasm-binary-writer.c)
+* [wasm.h](https://github.com/WebAssembly/binaryen/blob/master/src/wasm.h)
+* [wasm-binary.h](https://github.com/WebAssembly/binaryen/blob/master/src/wasm-binary.h)
 
 **Chrome**
 
