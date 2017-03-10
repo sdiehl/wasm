@@ -24,6 +24,11 @@ library
     Binary
     Builder
 
+  ghc-options:
+    -W
+    -Wwarn
+    -fwarn-incomplete-patterns
+
   other-modules:
     Parser
     Lexer
