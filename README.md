@@ -5,6 +5,8 @@
 Haskell WebAssembly
 -------------------
 
+[![Build Status](https://travis-ci.org/haskell-wasm/wasm.svg?branch=master)](https://travis-ci.org/haskell-wasm/wasm)
+
 A portable machine architecture for the web.
 
 > Define a portable, size- and load-time-efficient binary format to serve as a
