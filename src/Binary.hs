@@ -108,8 +108,8 @@ relOp (op, I32) = case op of
   GeU -> putWord8 0x4f
   Lt  -> putWord8 0x5d
   Le  -> putWord8 0x5f
-  Gt  -> putWord8 0x64
-  Ge  -> putWord8 0x66
+  Gt  -> putWord8 0x5e
+  Ge  -> putWord8 0x60
 relOp (op, I64) = case op of
   Eq  -> putWord8 0x51
   Ne  -> putWord8 0x52
