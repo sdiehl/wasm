@@ -108,31 +108,31 @@ instance Serialize Func where
 
 relOp :: (Relop, Type) -> Put
 relOp (op, I32) = case op of
-  Eq  -> putWord8 0x4d
-  Ne  -> todo
-  LtS -> todo
-  LtU -> todo
-  LeS -> todo
-  LeU -> todo
-  GtS -> todo
-  GtU -> todo
-  GeS -> todo
-  GeU -> todo
-  Lt  -> todo
-  Le  -> todo
-  Gt  -> todo
-  Ge  -> todo
+  Eq  -> putWord8 0x46
+  Ne  -> putWord8 0x47
+  LtS -> putWord8 0x48
+  LtU -> putWord8 0x49
+  LeS -> putWord8 0x4c
+  LeU -> putWord8 0x4d 
+  GtS -> putWord8 0x4a
+  GtU -> putWord8 0x4b
+  GeS -> putWord8 0x4e
+  GeU -> putWord8 0x4f
+  Lt  -> putWord8 0x5d
+  Le  -> putWord8 0x5f
+  Gt  -> putWord8 0x5e
+  Ge  -> putWord8 0x60
 relOp (op, I64) = case op of
-  Eq  -> putWord8 0x68
-  Ne  -> todo
-  LtS -> todo
-  LtU -> todo
-  LeS -> todo
-  LeU -> todo
-  GtS -> todo
-  GtU -> todo
-  GeS -> todo
-  GeU -> todo
+  Eq  -> putWord8 0x51
+  Ne  -> putWord8 0x52
+  LtS -> putWord8 0x53
+  LtU -> putWord8 0x54
+  LeS -> putWord8 0x57
+  LeU -> putWord8 0x58
+  GtS -> putWord8 0x55
+  GtU -> putWord8 0x56
+  GeS -> putWord8 0x59
+  GeU -> putWord8 0x5a
   Lt  -> todo
   Le  -> todo
   Gt  -> todo
