@@ -2,29 +2,29 @@ module Entry(
   main,
 ) where
 
-import Lexer
-import Parser
-import Monad
-import Syntax
-import Pretty
-import Eval
-import Verify
-import Binary
-import Hex
-import Core (toCore)
+import           Binary
+import           Core                         (toCore)
+import           Eval
+import           Hex
+import           Lexer
+import           Monad
+import           Parser
+import           Pretty
+import           Syntax
+import           Verify
 
-import Control.Monad
-import Control.Applicative
+import           Control.Applicative
+import           Control.Monad
 
-import Data.Word
-import Data.Char
-import Data.Serialize
-import qualified Data.ByteString as BS
+import qualified Data.ByteString              as BS
+import           Data.Char
+import           Data.Serialize
+import           Data.Word
+import           System.Environment
+import           System.Process
+import           Text.PrettyPrint.ANSI.Leijen
 
-import System.Process
-import System.Environment
-
-import Text.Show.Pretty
+-- import           Text.Show.Pretty
 
 parse :: String -> Either ParseError [Decl]
 parse fs = runParseM prog (scan fs)
@@ -38,17 +38,17 @@ file fname = do
 main :: IO ()
 main = do
   args <- getArgs
-  let input = case args of 
+  let input = case args of
                  [input] -> input
-                 _ -> "example1.wasm" 
+                 _       -> "example1.wasm"
 
   ast1 <- file input
-  putStrLn $ ppShow ast1
-  {-putStrLn $ ppShow ast2-}
+  putStrLn $ show ast1
 
   case ast1 of
     Left err -> return ()
     Right [mod] -> do
+      putDoc $ pretty mod
       let bs = encode (toCore mod)
       {-mapM_ print (ByteString.unpack bs)-}
       {-fd <- open "example1.bin"-}
