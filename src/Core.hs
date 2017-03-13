@@ -58,9 +58,8 @@ data Export
 -------------------------------------------------------------------------------
 
 toCoreFunc :: Syn.Func -> Func
-toCoreFunc (Syn.Func ftype params _) = Func ftype (length params) body
+toCoreFunc (Syn.Func ftype params body) = Func ftype (length params) body
   where
-    body = [f |  f <- body]
     result = head [f | Syn.Result f <- params]
 
 toCoreExport :: Syn.Func -> Export
