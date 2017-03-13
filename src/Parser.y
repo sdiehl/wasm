@@ -112,14 +112,13 @@ param :: { Param }
  : '(' 'param' name typ ')'       { Param (Just $3) $4 }
  | '(' 'param' typ ')'            { Param Nothing $3 }
  | '(' 'result' typ ')'           { Result $3 }
- | sexp                           { Body $1 }
 
 func :: { Func }
- : '(' 'func' name list1(param) ')' 
- { Func (Just $3) $4 [] }
+ : '(' 'func' name list1(param) list(sexp) ')'
+ { Func (Just $3) $4 $5 }
 
- | '(' 'func' list1(param) ')' 
- { Func Nothing $3 [] }
+ | '(' 'func' list1(param) list(sexp) ')'
+ { Func Nothing $3 $4 }
 
  | '(' 'export' str value ')'     { Export $3 $4 }
 
