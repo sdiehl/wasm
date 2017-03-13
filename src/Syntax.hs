@@ -14,9 +14,9 @@ module Syntax (
   Relop(..),
 ) where
 
-import Data.Int
-import Data.String
-import qualified Data.Text as T
+import           Data.Int
+import           Data.String
+import qualified Data.Text   as T
 
 newtype Name = Name T.Text
   deriving (Eq, Ord, Show, IsString)
@@ -154,9 +154,9 @@ data Extension
   deriving (Eq, Show)
 
 data Memop = Memop
-  { ty :: Value
+  { ty     :: Value
   , offset :: Offset
-  , align :: Maybe Int
+  , align  :: Maybe Int
   } deriving (Eq, Show)
 
 data Hostop
@@ -178,9 +178,9 @@ data Decl
   deriving (Eq, Show)
 
 data Func = Func
-  { _ftype :: Maybe Name
+  { _ftype  :: Maybe Name
   , _params :: [Param]
-  , _body :: [Expr]
+  , _body   :: [Expr]
   }
   | Export String Value
   | Import Name Int
@@ -193,7 +193,6 @@ data Module = Module
 data Param
   = Param (Maybe Name) Type
   | Result Type
-  | Body Expr
   deriving (Eq, Show)
 
 

@@ -1,5 +1,5 @@
 {-# LANGUAGE FunctionalDependencies #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE MultiParamTypeClasses  #-}
 
 module Core (
   toCore,
@@ -40,9 +40,9 @@ data Module = Module
   } deriving (Eq, Show)
 
 data Func = Func
-  { _fname :: Maybe Syn.Name
+  { _fname  :: Maybe Syn.Name
   , _params :: Int
-  , _fbody :: [Syn.Expr]
+  , _fbody  :: [Syn.Expr]
   } deriving (Eq, Show)
 
 data Import
@@ -58,9 +58,8 @@ data Export
 -------------------------------------------------------------------------------
 
 toCoreFunc :: Syn.Func -> Func
-toCoreFunc (Syn.Func ftype params _) = Func ftype (length params) body
+toCoreFunc (Syn.Func ftype params body) = Func ftype (length params) body
   where
-    body = [f | Syn.Body f <- params]
     result = head [f | Syn.Result f <- params]
 
 toCoreExport :: Syn.Func -> Export
@@ -77,7 +76,7 @@ toCoreMod (Syn.Module defs) = Module
   }
 
 toCoreDecl :: Syn.Decl -> Decl
-toCoreDecl (Syn.ModDecl mod) = ModDecl (toCoreMod mod)
+toCoreDecl (Syn.ModDecl mod)  = ModDecl (toCoreMod mod)
 toCoreDecl (Syn.ExprDecl exp) = ExprDecl exp
 
 toCore = toCoreDecl
