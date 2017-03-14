@@ -25,7 +25,6 @@ data Expr
   = Nop
   | Unreachable
   | Block (Maybe Name) [Expr]
-  | Break Name (Maybe Expr)
   | If Expr Expr
   | IfElse Expr Expr Expr
   | BrIf Expr Name Expr
