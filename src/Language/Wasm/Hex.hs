@@ -2,8 +2,8 @@ module Language.Wasm.Hex (
   simpleHex
 ) where
 
-import Data.List hiding (group)
 import qualified Data.ByteString as BS
+import Data.List hiding (group)
 
 import Numeric (showHex)
 
@@ -26,6 +26,6 @@ group n
 
 simpleHex :: BS.ByteString -> String
 simpleHex = intercalate "  "
-          . map (intercalate " ") . group numWordBytes
+          . map unwords . group numWordBytes
           . map (paddedShowHex byteWidth)
           . BS.unpack

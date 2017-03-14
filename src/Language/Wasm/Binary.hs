@@ -6,11 +6,10 @@ module Language.Wasm.Binary where
 import Data.ByteString
 import qualified Data.List as List
 import Data.Serialize
-import Data.Serialize.Put
 import Data.Word
 
 import Language.Wasm.Core
-{-import Syntax-}
+
 
 -------------------------------------------------------------------------------
 -- Binary Writer

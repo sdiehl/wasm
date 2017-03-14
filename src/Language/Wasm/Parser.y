@@ -198,8 +198,6 @@ list(p)
 
 -- A list of at least 1 p's
 list1(p) : rev_list1(p)   { reverse $1 }
-
-
 {
 
 happyError :: ParseM a

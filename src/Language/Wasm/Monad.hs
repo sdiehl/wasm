@@ -20,7 +20,7 @@ newtype ParseM a
   = ParseM { unParseM :: S -> Either ParseError (a, S) }
 
 runParseM :: ParseM a -> [Token] -> Either ParseError a
-runParseM m ts = fmap fst $ unParseM m (S cs ts')
+runParseM m ts = fst <$> unParseM m (S cs ts')
   where (cs, ts') = splitCommentTokens ts
 
 instance Functor ParseM where
