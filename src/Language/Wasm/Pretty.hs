@@ -3,8 +3,8 @@
 
 module Language.Wasm.Pretty where
 import qualified Data.Text as T
-import Prelude hiding ((<$>))
 import Language.Wasm.Syntax
+import Prelude hiding ((<$>))
 import Text.PrettyPrint.ANSI.Leijen
 
 

@@ -13,11 +13,16 @@ testFiles :: MonadIO m => m [FilePath]
 testFiles = liftIO $ findByExtension [".wast"] "tests/spec/"
 
 
+
+
 parser :: [(FilePath, String)] -> TestTree
-parser inputs = testGroup "Parser does not fail on syntactically correct inputs" $ do
-  -- list comp
-  input <- inputs
-  return $ testCase (takeBaseName (fst input)) ( assertBool "" (isRight (parse (snd input))) )
+parser inputs = testGroup "Parser does not fail on syntactically correct inputs" testCases
+  where
+    testCases = [ testCase (takeBaseName name) (assertion contents) | (name, contents) <- inputs ]
+    assertion contents = let result = parse contents
+                         in assertBool (show result) (isRight (parse contents))
+
+
 
 prettyPrinter :: TestTree
 prettyPrinter = testGroup "Pretty Printer" []
