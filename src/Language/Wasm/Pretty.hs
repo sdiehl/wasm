@@ -18,12 +18,11 @@ instance Pretty Expr where
                   Nop -> text "nop"
                   Unreachable  -> text "unreachable"
                   Block name e -> text "block" <+> maybe empty pretty name <$> pretty e
-                  Break name _ -> text "todo"
                   If cond true -> text "if" <+> pretty [cond,true]
                   IfElse cond true false -> text "if_else" <+> pretty [cond,true,false]
                   BrIf cond name e -> text "todo"
                   Loop{} -> text "todo"
-                  Br name _ -> text "todo"
+                  Br name e -> pretty [text "br" <+> pretty name]
                   Return e -> text "return" <+> parens (pretty e)
                   Call name _ -> text "todo"
                   Const typ value -> pretty typ <> dot <> text "const" <+> pretty value

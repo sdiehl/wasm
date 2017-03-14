@@ -1,28 +1,29 @@
 module Entry(
   main,
+  parse
 ) where
 
-import           Binary
-import           Core                         (toCore)
-import           Eval
-import           Hex
-import           Lexer
-import           Monad
-import           Parser
-import           Pretty
-import           Syntax
-import           Verify
+import Binary
+import Core (toCore)
+import Eval
+import Hex
+import Lexer
+import Monad
+import Parser
+import Pretty
+import Syntax
+import Verify
 
-import           Control.Applicative
-import           Control.Monad
+import Control.Applicative
+import Control.Monad
 
-import qualified Data.ByteString              as BS
-import           Data.Char
-import           Data.Serialize
-import           Data.Word
-import           System.Environment
-import           System.Process
-import           Text.PrettyPrint.ANSI.Leijen
+import qualified Data.ByteString as BS
+import Data.Char
+import Data.Serialize
+import Data.Word
+import System.Environment
+import System.Process
+import Text.PrettyPrint.ANSI.Leijen
 
 -- import           Text.Show.Pretty
 
