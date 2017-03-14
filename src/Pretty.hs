@@ -24,18 +24,18 @@ instance Pretty Expr where
                   BrIf cond name e -> text "todo"
                   Loop{} -> text "todo"
                   Br name _ -> text "todo"
-                  Return e -> text "todo"
+                  Return e -> text "return" <+> pretty e
                   Call name _ -> text "todo"
                   Const typ value -> pretty value
-                  Lit value -> text "todo"
+                  Lit value -> pretty value
                   Load memop e -> text "todo"
                   Store memop e -> text "todo"
                   GetLocal name -> text "todo"
                   SetLocal name e -> text "todo"
                   LoadExtend extop e -> text "todo"
                   StoreWrap wrapop e1 e2 -> text "todo"
-                  Bin binop typ e1 e2 -> pretty typ <> text "." <> pretty binop <+> pretty e1 <+> pretty e2
-                  Un unop typ e -> text "todo"
+                  Bin binop typ e1 e2 -> pretty typ <> dot <> pretty binop <+> pretty e1 <+> pretty e2
+                  Un unop typ e -> pretty typ <> dot <> pretty unop <+> pretty e
                   Rel relop typ e e1 -> text "todo"
                   Sel selop e1 e2 e3 -> text "todo"
                   Convert cvtop e -> text "todo"
@@ -104,7 +104,7 @@ instance Pretty Func where
   pretty f = case f of
               (Export name value) -> text "export" <+> pretty name <+> pretty value
               (Import name value) -> text "Import" <+> pretty name <+> pretty value
-              (Func name params body) -> nest 2 (text "func" <+> maybe empty pretty name <> pretty params <$> pretty body )
+              (Func name params body) -> nest 2 (text "func" <+> maybe empty pretty name <+> pretty params <$> pretty body )
 
 instance Pretty Decl where
   pretty d = case d of
