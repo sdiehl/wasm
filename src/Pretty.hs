@@ -2,10 +2,10 @@
 -- Pretty printer for Textual AST.
 
 module Pretty where
-import qualified Data.Text                    as T
-import           Prelude                      hiding ((<$>))
-import           Syntax
-import           Text.PrettyPrint.ANSI.Leijen
+import qualified Data.Text as T
+import Prelude hiding ((<$>))
+import Syntax
+import Text.PrettyPrint.ANSI.Leijen
 
 
 
@@ -13,30 +13,30 @@ instance Pretty Name where
   pretty (Name t) = text (T.unpack t)
 
 instance Pretty Expr where
-  prettyList f = vsep (map (parens . pretty) f)
+  prettyList = nest 4 . vsep . map (parens . pretty)
   pretty expr = case expr of
                   Nop -> text "nop"
                   Unreachable  -> text "unreachable"
-                  Block _ _ -> text "todo"
+                  Block name e -> text "block" <+> maybe empty pretty name <$> pretty e
                   Break name _ -> text "todo"
-                  If cond true -> text "todo"
-                  IfElse cond true false -> text "todo"
+                  If cond true -> text "if" <+> pretty [cond,true]
+                  IfElse cond true false -> text "if_else" <+> pretty [cond,true,false]
                   BrIf cond name e -> text "todo"
                   Loop{} -> text "todo"
                   Br name _ -> text "todo"
-                  Return e -> text "return" <+> pretty e
+                  Return e -> text "return" <+> parens (pretty e)
                   Call name _ -> text "todo"
-                  Const typ value -> pretty value
+                  Const typ value -> pretty typ <> dot <> text "const" <+> pretty value
                   Lit value -> pretty value
                   Load memop e -> text "todo"
                   Store memop e -> text "todo"
-                  GetLocal name -> text "todo"
-                  SetLocal name e -> text "todo"
+                  GetLocal name -> text "get_local" <+> pretty name
+                  SetLocal name e -> text "set_local" <+> pretty name <+> parens (pretty e)
                   LoadExtend extop e -> text "todo"
                   StoreWrap wrapop e1 e2 -> text "todo"
-                  Bin binop typ e1 e2 -> pretty typ <> dot <> pretty binop <+> pretty e1 <+> pretty e2
-                  Un unop typ e -> pretty typ <> dot <> pretty unop <+> pretty e
-                  Rel relop typ e e1 -> text "todo"
+                  Bin binop typ e1 e2 -> pretty typ <> dot <> pretty binop <+> parens (pretty e1) <+> parens( pretty e2)
+                  Un unop typ e -> pretty typ <> dot <> pretty unop <+> parens (pretty e)
+                  Rel relop typ e1 e2 -> pretty typ <> dot <> pretty relop <+> parens (pretty e1) <+> parens( pretty e2)
                   Sel selop e1 e2 e3 -> text "todo"
                   Convert cvtop e -> text "todo"
                   Host hostop _ -> text "todo"
@@ -100,11 +100,11 @@ instance Pretty Value where
                   (VF64 v) -> text (show v)
 
 instance Pretty Func where
-  prettyList f = vsep (map (parens . pretty) f)
+  prettyList = vsep . map (parens . pretty)
   pretty f = case f of
               (Export name value) -> text "export" <+> pretty name <+> pretty value
               (Import name value) -> text "Import" <+> pretty name <+> pretty value
-              (Func name params body) -> nest 2 (text "func" <+> maybe empty pretty name <+> pretty params <$> pretty body )
+              (Func name params body) -> nest 4 (text "func" <+> maybe empty pretty name <+> pretty params <$> pretty body )
 
 instance Pretty Decl where
   pretty d = case d of
@@ -112,15 +112,15 @@ instance Pretty Decl where
               (ExprDecl expr) -> pretty expr
 
 instance Pretty Module where
-  pretty Module { _funcs=funcs } = parens (nest 2 (text "module" <$> pretty funcs))
+  pretty Module { _funcs=funcs } = parens (nest 4 (text "module" <$> pretty funcs))
 
 instance Pretty Param where
+  prettyList = fillSep . map (parens . pretty)
   pretty param = case param of
                   (Param (Just name) typ) -> text  "param" <+> pretty name <+> pretty typ
                   (Param Nothing typ) -> text  "param" <+> pretty typ
                   (Result typ) -> text  "result" <+> pretty typ
                   (Body expr) -> pretty expr
-  prettyList f = fillCat (map (parens . pretty) f)
 
 instance Pretty Type where
   pretty ty = case ty of
