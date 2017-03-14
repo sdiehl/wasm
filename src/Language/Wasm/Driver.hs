@@ -1,1 +1,1 @@
-module Driver where
+module Language.Wasm.Driver where

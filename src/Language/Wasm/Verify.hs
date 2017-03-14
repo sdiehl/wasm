@@ -1,1 +1,1 @@
-module Verify where
+module Language.Wasm.Verify where

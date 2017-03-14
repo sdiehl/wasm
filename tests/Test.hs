@@ -1,16 +1,16 @@
 module Main (
-  main,
+  main
 ) where
-
 import Control.Monad.Trans
 import Data.Either
+import Language.Wasm.Entry (parse)
 import System.FilePath
 import Test.Tasty
 import Test.Tasty.Golden
 import Test.Tasty.HUnit
 
 testFiles :: MonadIO m => m [FilePath]
-testFiles = liftIO $ findByExtension [".wast"] "test/"
+testFiles = liftIO $ findByExtension [".wast"] "tests/spec/"
 
 
 parser :: [(FilePath, String)] -> TestTree

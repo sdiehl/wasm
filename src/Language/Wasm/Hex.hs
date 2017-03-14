@@ -1,4 +1,4 @@
-module Hex (
+module Language.Wasm.Hex (
   simpleHex
 ) where
 

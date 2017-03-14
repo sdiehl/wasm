@@ -1,15 +1,15 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Binary where
+module Language.Wasm.Binary where
 
-import           Data.ByteString
-import qualified Data.List          as List
-import           Data.Serialize
-import           Data.Serialize.Put
-import           Data.Word
+import Data.ByteString
+import qualified Data.List as List
+import Data.Serialize
+import Data.Serialize.Put
+import Data.Word
 
-import           Core
+import Language.Wasm.Core
 {-import Syntax-}
 
 -------------------------------------------------------------------------------

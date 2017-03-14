@@ -1,18 +1,18 @@
-module Entry(
+module Language.Wasm.Entry(
   main,
   parse
 ) where
 
-import Binary
-import Core (toCore)
-import Eval
-import Hex
-import Lexer
-import Monad
-import Parser
-import Pretty
-import Syntax
-import Verify
+import Language.Wasm.Binary
+import Language.Wasm.Core (toCore)
+import Language.Wasm.Eval
+import Language.Wasm.Hex
+import Language.Wasm.Lexer
+import Language.Wasm.Monad
+import Language.Wasm.Parser
+import Language.Wasm.Pretty
+import Language.Wasm.Syntax
+import Language.Wasm.Verify
 
 import Control.Applicative
 import Control.Monad

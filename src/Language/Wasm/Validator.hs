@@ -1,1 +1,1 @@
-module Validator where
+module Language.Wasm.Validator where

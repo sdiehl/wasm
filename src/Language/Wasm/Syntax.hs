@@ -1,6 +1,6 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
-module Syntax (
+module Language.Wasm.Syntax (
   Name(..),
   Expr(..),
   Decl(..),
@@ -153,9 +153,9 @@ data Extension
   deriving (Eq, Show)
 
 data Memop = Memop
-  { ty :: Value
+  { ty     :: Value
   , offset :: Offset
-  , align :: Maybe Int
+  , align  :: Maybe Int
   } deriving (Eq, Show)
 
 data Hostop
@@ -177,9 +177,9 @@ data Decl
   deriving (Eq, Show)
 
 data Func = Func
-  { _ftype :: Maybe Name
+  { _ftype  :: Maybe Name
   , _params :: [Param]
-  , _body :: [Expr]
+  , _body   :: [Expr]
   }
   | Export String Value
   | Import Name Int

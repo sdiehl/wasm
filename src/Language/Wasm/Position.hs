@@ -1,4 +1,4 @@
-module Position where
+module Language.Wasm.Position where
 
 -------------------------------------------------------------------------------
 -- Data

@@ -1,10 +1,10 @@
 {-# LANGUAGE FlexibleInstances #-}
 -- Pretty printer for Textual AST.
 
-module Pretty where
+module Language.Wasm.Pretty where
 import qualified Data.Text as T
 import Prelude hiding ((<$>))
-import Syntax
+import Language.Wasm.Syntax
 import Text.PrettyPrint.ANSI.Leijen
 
 

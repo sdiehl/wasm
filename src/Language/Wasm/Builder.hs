@@ -1,3 +1,3 @@
-module Builder where
+module Language.Wasm.Builder where
 
-import Syntax
+import Language.Wasm.Syntax
