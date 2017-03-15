@@ -3,6 +3,7 @@ module Main (
 ) where
 import Control.Monad.Trans
 import Data.Either
+import Language.Wasm.Core
 import Language.Wasm.Entry (parse)
 import System.FilePath
 import Test.Tasty
@@ -11,7 +12,6 @@ import Test.Tasty.HUnit
 
 testFiles :: MonadIO m => m [FilePath]
 testFiles = liftIO $ findByExtension [".wast"] "tests/spec/"
-
 
 
 
@@ -27,9 +27,18 @@ parser inputs = testGroup "Parser does not fail on syntactically correct inputs"
 prettyPrinter :: TestTree
 prettyPrinter = testGroup "Pretty Printer" []
 
-binaryWriter :: TestTree
-binaryWriter = testGroup "Binary Writer" []
-
+-- binaryWriter :: [(FilePath, String)] -> TestTree
+-- binaryWriter inputs = testGroup "Binary Writer" $ do
+--   (path, contents) <- inputs
+--   let
+--     out = path <.> "bin" <.> "out"
+--     golden = path <.> "bin" <.> "golden"
+--     run = do
+--       let ast = (parse contents)
+--       let bs = encode (toCore ast)
+--       BS.writeFile out bs
+--
+--   return goldenVsFile (takeBaseName path) golden out run
 
 
 main :: IO ()
