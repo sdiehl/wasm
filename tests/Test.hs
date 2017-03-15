@@ -20,10 +20,7 @@ parser inputs = testGroup "Parser does not fail on syntactically correct inputs"
   where
     testCases = [ testCase (takeBaseName name) (assertion contents) | (name, contents) <- inputs ]
     assertion contents = let result = parse contents
-                         in assertBool (show result) (isRight (parse contents))
-
-
-
+                         in assertBool (show result) (isRight result)
 prettyPrinter :: TestTree
 prettyPrinter = testGroup "Pretty Printer" []
 
