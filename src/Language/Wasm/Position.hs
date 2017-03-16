@@ -1,4 +1,4 @@
-module Position where
+module Language.Wasm.Position where
 
 -------------------------------------------------------------------------------
 -- Data
@@ -6,7 +6,7 @@ module Position where
 
 data Position = Position
   { line :: !Int
-  , col :: !Int
+  , col  :: !Int
   } deriving (Eq, Ord, Show)
 
 data Range = Range

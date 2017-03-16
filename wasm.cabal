@@ -5,25 +5,25 @@ license-file:        LICENSE
 author:              Stephen Diehl
 maintainer:          stephen.m.diehl@gmail.com
 build-type:          Simple
-extra-source-files:  
+extra-source-files:
   README.md
-  src/Parser.y
-  src/Lexer.x
+  src/Language/Wasm/Parser.y
+  src/Language/Wasm/Lexer.x
 cabal-version:       >=1.10
 
-library 
+library
   exposed-modules:
-    Core
-    Entry
-    Eval
-    Monad
-    Position
-    Pretty
-    Syntax
-    Verify
-    Binary
-    Builder
-    Hex
+    Language.Wasm.Core
+    Language.Wasm.Entry
+    Language.Wasm.Eval
+    Language.Wasm.Monad
+    Language.Wasm.Position
+    Language.Wasm.Pretty
+    Language.Wasm.Syntax
+    Language.Wasm.Verify
+    Language.Wasm.Binary
+    Language.Wasm.Builder
+    Language.Wasm.Hex
 
   ghc-options:
     -W
@@ -31,10 +31,10 @@ library
     -fwarn-incomplete-patterns
 
   other-modules:
-    Parser
-    Lexer
+    Language.Wasm.Parser
+    Language.Wasm.Lexer
 
-  build-depends:       
+  build-depends:
     base                 >= 4.6   && <5.0,
     array                >= 0.5   && <0.6,
     text                 >= 1.1   && <1.3,
@@ -58,10 +58,10 @@ library
     alex >= 3.1.3,
     happy >= 1.9.4
 
-executable wasm 
+executable wasm
   main-is:               Main.hs
 
-  build-depends: 
+  build-depends:
     wasm                 == 0.1,
     base                 >= 4.6   && <5.0
 
@@ -73,16 +73,18 @@ executable wasm
     happy >= 1.9.4
 
 test-suite test
-  build-depends:       
+  build-depends:
     wasm                 == 0.1,
     base                 >= 4.6     && <5.0,
     filepath             >= 1.3     && <1.5,
-
+    bytestring           >= 0.10  && <0.11,
+    cereal               >= 0.4   && <0.6,
     -- Testing machinery
     tasty                >= 0.7,
     tasty-hunit          >= 0.4.1   && <0.10,
     tasty-golden         >= 2.2     && <2.4,
-    io-capture           == 0.3
+    io-capture           == 0.3,
+    mtl                  == 2.2.1
 
   type:                exitcode-stdio-1.0
   default-language:    Haskell2010
@@ -91,5 +93,5 @@ test-suite test
     alex >= 3.1.3,
     happy >= 1.9.4
 
-  hs-source-dirs:      src
+  hs-source-dirs:      tests
   main-is:             Test.hs

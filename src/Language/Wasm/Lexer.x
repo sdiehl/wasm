@@ -7,8 +7,8 @@
 {-# OPTIONS_GHC -fno-warn-unused-matches #-}
 {-# OPTIONS_GHC -fno-warn-tabs #-}
 
-module Lexer
-  ( module Position
+module Language.Wasm.Lexer
+  ( module Language.Wasm.Position
   , Token(..)
   , ppToken
   , AlexInput
@@ -23,7 +23,7 @@ import Data.Char (isAscii)
 import qualified Data.Char as Char
 import Data.Word (Word8)
 
-import Position
+import Language.Wasm.Position
 
 }
 
@@ -65,11 +65,11 @@ $hexit       = [0-9 A-F a-f]
 
 @keywords =
   "module" | "func" | "export" | "nop" | "block" | "unreachable" |
-  "param" | "result" | "i32" | "i64" | "f32" | "f64" | "if" | 
+  "param" | "result" | "i32" | "i64" | "f32" | "f64" | "if" |
   "if_else" | "br_if" | "loop" | "br" | "return" | "call" | "const" |
   "add" | "mul" | "sub" | "eq" | "div" | "get_local" | "set_local" |
   "grow_memory" | "memory_size" | "local" | "tableswitch" | "nan" |
-  "infinity" | "neg" | "floor" | "trunc" | "nearest" | "sqrt" | 
+  "infinity" | "neg" | "floor" | "trunc" | "nearest" | "sqrt" |
   "max" | "min" | "ceil" | "floor" | "copysign" | "abs" | "void"
 
 @key = @punct | @keywords

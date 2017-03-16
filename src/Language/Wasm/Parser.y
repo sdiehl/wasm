@@ -1,10 +1,10 @@
 {
 
-module Parser where
+module Language.Wasm.Parser where
 
-import Monad
-import Lexer
-import Syntax
+import Language.Wasm.Monad
+import Language.Wasm.Lexer
+import Language.Wasm.Syntax
 
 import qualified Data.Text as T
 
@@ -115,10 +115,10 @@ param :: { Param }
  | sexp                           { Body $1 }
 
 func :: { Func }
- : '(' 'func' name list1(param) ')' 
+ : '(' 'func' name list1(param) ')'
  { Func (Just $3) $4 [] }
 
- | '(' 'func' list1(param) ')' 
+ | '(' 'func' list1(param) ')'
  { Func Nothing $3 [] }
 
  | '(' 'export' str value ')'     { Export $3 $4 }
@@ -198,8 +198,6 @@ list(p)
 
 -- A list of at least 1 p's
 list1(p) : rev_list1(p)   { reverse $1 }
-
-
 {
 
 happyError :: ParseM a

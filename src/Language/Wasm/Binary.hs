@@ -1,16 +1,15 @@
-{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE OverloadedStrings #-}
 
-module Binary where
+module Language.Wasm.Binary where
 
-import Data.Word
 import Data.ByteString
-import Data.Serialize
-import Data.Serialize.Put
 import qualified Data.List as List
+import Data.Serialize
+import Data.Word
 
-import Core
-{-import Syntax-}
+import Language.Wasm.Core
+
 
 -------------------------------------------------------------------------------
 -- Binary Writer
@@ -113,7 +112,7 @@ relOp (op, I32) = case op of
   LtS -> putWord8 0x48
   LtU -> putWord8 0x49
   LeS -> putWord8 0x4c
-  LeU -> putWord8 0x4d 
+  LeU -> putWord8 0x4d
   GtS -> putWord8 0x4a
   GtU -> putWord8 0x4b
   GeS -> putWord8 0x4e
@@ -178,10 +177,10 @@ binOp (op, I64) = case op of
 
 instance Serialize Value where
   put x = case x of
-    VI32 y   -> putWord8 (fromIntegral y)
-    VI64 y   -> putWord8 (fromIntegral y)
-    VF32 y   -> todo
-    VF64 y   -> todo
+    VI32 y -> putWord8 (fromIntegral y)
+    VI64 y -> putWord8 (fromIntegral y)
+    VF32 y -> todo
+    VF64 y -> todo
   get = error "get Type"
 
 instance Serialize Expr where
@@ -189,7 +188,6 @@ instance Serialize Expr where
     Nop                -> todo
     Unreachable        -> todo
     Block y1 y2        -> todo
-    Break y1 y2        -> todo
     If y1 y2           -> todo
 
     IfElse cond tr fl  -> do

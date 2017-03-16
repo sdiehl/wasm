@@ -1,7 +1,7 @@
 {-# LANGUAGE FunctionalDependencies #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE MultiParamTypeClasses  #-}
 
-module Core (
+module Language.Wasm.Core (
   toCore,
   Func(..),
   Decl(..),
@@ -20,7 +20,7 @@ module Core (
   Syn.Relop(..),
 ) where
 
-import qualified Syntax as Syn
+import qualified Language.Wasm.Syntax as Syn
 
 {-class ToCore a b | a -> b where-}
   {-toCore :: a -> b-}
@@ -40,9 +40,9 @@ data Module = Module
   } deriving (Eq, Show)
 
 data Func = Func
-  { _fname :: Maybe Syn.Name
+  { _fname  :: Maybe Syn.Name
   , _params :: Int
-  , _fbody :: [Syn.Expr]
+  , _fbody  :: [Syn.Expr]
   } deriving (Eq, Show)
 
 data Import
@@ -77,7 +77,7 @@ toCoreMod (Syn.Module defs) = Module
   }
 
 toCoreDecl :: Syn.Decl -> Decl
-toCoreDecl (Syn.ModDecl mod) = ModDecl (toCoreMod mod)
+toCoreDecl (Syn.ModDecl mod)  = ModDecl (toCoreMod mod)
 toCoreDecl (Syn.ExprDecl exp) = ExprDecl exp
 
 toCore = toCoreDecl
