@@ -2,27 +2,29 @@
 -- Pretty printer for Textual AST.
 
 module Language.Wasm.Pretty where
+import Data.Maybe
 import qualified Data.Text as T
 import Language.Wasm.Syntax
 import Prelude hiding ((<$>))
 import Text.PrettyPrint.ANSI.Leijen
 
 
-
 instance Pretty Name where
+  prettyList = fillSep . map pretty
   pretty (Name t) = text (T.unpack t)
 
 instance Pretty Expr where
-  prettyList = nest 4 . vsep . map (parens . pretty)
+
+  prettyList = nest 2 . vsep . map (parens . pretty)
   pretty expr = case expr of
                   Nop -> text "nop"
                   Unreachable  -> text "unreachable"
-                  Block name e -> text "block" <+> maybe empty pretty name <$> pretty e
+                  Block name e -> text "block" <+> pretty name <$> pretty e
                   If cond true -> text "if" <+> pretty [cond,true]
                   IfElse cond true false -> text "if_else" <+> pretty [cond,true,false]
                   BrIf cond name e -> text "todo"
-                  Loop{} -> text "todo"
-                  Br name e -> pretty [text "br" <+> pretty name]
+                  Loop name1 name2 e-> text "loop" <+> pretty (catMaybes [name1, name2]) <$> pretty e
+                  Br name e -> text "br" <+> pretty name <+> pretty e
                   Return e -> text "return" <+> parens (pretty e)
                   Call name _ -> text "todo"
                   Const typ value -> pretty typ <> dot <> text "const" <+> pretty value
@@ -103,7 +105,7 @@ instance Pretty Func where
   pretty f = case f of
               (Export name value) -> text "export" <+> pretty name <+> pretty value
               (Import name value) -> text "Import" <+> pretty name <+> pretty value
-              (Func name params body) -> nest 4 (text "func" <+> maybe empty pretty name <+> pretty params <$> pretty body )
+              (Func name params body) -> nest 2 (text "func" <+> maybe empty pretty name <+> pretty params <$> pretty body )
 
 instance Pretty Decl where
   pretty d = case d of
@@ -111,7 +113,7 @@ instance Pretty Decl where
               (ExprDecl expr) -> pretty expr
 
 instance Pretty Module where
-  pretty Module { _funcs=funcs } = parens (nest 4 (text "module" <$> pretty funcs))
+  pretty Module { _funcs=funcs } = parens (nest 2 (text "module" <$> pretty funcs))
 
 instance Pretty Param where
   prettyList = fillSep . map (parens . pretty)
