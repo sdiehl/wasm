@@ -63,7 +63,23 @@ real               { TReal $$ }
 'sub'              { TKey "sub" }
 'div'              { TKey "div" }
 'abs'              { TKey "abs" }
+
 'eq'               { TKey "eq" }
+'ne'               { TKey "ne" }
+'lts'              { TKey "lts" }
+'ltu'              { TKey "ltu" }
+'les'              { TKey "les" }
+'leu'              { TKey "leu" }
+'gts'              { TKey "gts" }
+'gtu'              { TKey "gtu" }
+'ges'              { TKey "ges" }
+'geu'              { TKey "geu" }
+'lt'               { TKey "lt" }
+'le'               { TKey "le" }
+'gt'               { TKey "gt" }
+'ge'               { TKey "ge" }
+
+
 'min'              { TKey "min" }
 'max'              { TKey "max" }
 'ceil'             { TKey "ceil" }
@@ -171,6 +187,19 @@ unop :: { Unop }
 
 relop :: { Relop }
  : 'eq'                           { Eq }
+ | 'ne'                           { Ne }
+ | 'lts'                          { LtS }
+ | 'ltu'                          { LtU }
+ | 'les'                          { LeS }
+ | 'leu'                          { LeU }
+ | 'gts'                          { GtS }
+ | 'gtu'                          { GtU }
+ | 'ges'                          { GeS }
+ | 'geu'                          { GeU }
+ | 'lt'                           { Lt }
+ | 'le'                           { Le }
+ | 'gt'                           { Gt }
+ | 'ge'                           { Ge }
 
 expr :: { Expr }
  : 'nop'                          { Nop }
