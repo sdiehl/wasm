@@ -118,6 +118,8 @@ assertion :: { Assertion }
 action :: { Action }
  : '(' 'invoke' name name list(sexp) ')' { Invoke (Just $3) $4 $5 }
  | '(' 'invoke' name list(sexp) ')' { Invoke Nothing $3 $4 }
+ | '(' 'get' name ')' { Get (Just $3) }
+ | '(' 'get' ')' { Get Nothing }
 
 typ :: { Type }
  : 'i32'                           { I32 }
