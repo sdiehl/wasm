@@ -14,7 +14,6 @@ instance Pretty Name where
   pretty (Name t) = text (T.unpack t)
 
 instance Pretty Expr where
-
   prettyList = nest 2 . vsep . map (parens . pretty)
   pretty expr = case expr of
                   Nop -> text "nop"
