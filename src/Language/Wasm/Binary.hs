@@ -107,35 +107,47 @@ instance Serialize Func where
 
 relOp :: (Relop, Type) -> Put
 relOp (op, I32) = case op of
+  Eqz -> putWord8 0x45
   Eq  -> putWord8 0x46
   Ne  -> putWord8 0x47
   LtS -> putWord8 0x48
-  LtU -> putWord8 0x49
-  LeS -> putWord8 0x4c
-  LeU -> putWord8 0x4d
+  LtU-> putWord8 0x49
   GtS -> putWord8 0x4a
-  GtU -> putWord8 0x4b
+  GtU-> putWord8 0x4b
+  LeS -> putWord8 0x4c
+  LeU-> putWord8 0x4d
   GeS -> putWord8 0x4e
-  GeU -> putWord8 0x4f
-  Lt  -> putWord8 0x5d
-  Le  -> putWord8 0x5f
-  Gt  -> putWord8 0x5e
-  Ge  -> putWord8 0x60
+  GeU-> putWord8 0x4f
+  _   -> todo -- actually not supported
 relOp (op, I64) = case op of
+  Eqz -> putWord8 0x50
   Eq  -> putWord8 0x51
   Ne  -> putWord8 0x52
   LtS -> putWord8 0x53
-  LtU -> putWord8 0x54
-  LeS -> putWord8 0x57
-  LeU -> putWord8 0x58
+  LtU-> putWord8 0x54
   GtS -> putWord8 0x55
-  GtU -> putWord8 0x56
+  GtU-> putWord8 0x56
+  LeS -> putWord8 0x57
+  LeU-> putWord8 0x58
   GeS -> putWord8 0x59
-  GeU -> putWord8 0x5a
-  Lt  -> todo
-  Le  -> todo
-  Gt  -> todo
-  Ge  -> todo
+  GeU-> putWord8 0x5a
+  _   -> todo -- actually not supported
+relOp (op, F32) = case op of
+  Eq -> putWord8 0x5b
+  Ne -> putWord8 0x5c
+  Lt -> putWord8 0x5d
+  Gt -> putWord8 0x5e
+  Le -> putWord8 0x5f
+  Ge -> putWord8 0x60
+  _  -> todo -- actually not supported
+relOp (op, F64) = case op of
+  Eq -> putWord8 0x61
+  Ne -> putWord8 0x62
+  Lt -> putWord8 0x63
+  Gt -> putWord8 0x64
+  Le -> putWord8 0x65
+  Ge -> putWord8 0x66
+  _  -> todo -- actually not supported
 
 binOp :: (Binop, Type) -> Put
 binOp (op, I32) = case op of

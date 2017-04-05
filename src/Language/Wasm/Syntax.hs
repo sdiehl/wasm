@@ -92,22 +92,20 @@ data Selop
   deriving (Eq, Show)
 
 data Relop
-  -- Integer
-  = Eq
+  = Eqz
+  | Eq
   | Ne
   | LtS
   | LtU
-  | LeS
-  | LeU
   | GtS
   | GtU
+  | LeS
+  | LeU
   | GeS
   | GeU
-
-  -- Floating Point
   | Lt
-  | Le
   | Gt
+  | Le
   | Ge
   deriving (Eq, Show)
 
