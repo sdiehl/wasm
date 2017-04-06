@@ -104,6 +104,7 @@ instance Serialize Func where
   {-put (Result x) = return ()-}
   {-get = error "get Type"-}
 
+
 relOp :: (RelOp, Type) -> Put
 relOp (op, I32) = case op of
   Eqz -> putWord8 0x45
@@ -147,6 +148,7 @@ relOp (op, F64) = case op of
   Le -> putWord8 0x65
   Ge -> putWord8 0x66
   _  -> todo -- not supported
+relOp (_, _) = todo
 
 
 unOp :: (UnOp, Type) -> Put
@@ -178,6 +180,9 @@ unOp (op, F64) = case op of
   Nearest -> putWord8 0x9e
   Sqrt    -> putWord8 0x9f
   _       -> todo -- not supported
+unOp (_, _) = todo
+
+
 binOp :: (BinOp, Type) -> Put
 binOp (op, I32) = case op of
   Add  -> putWord8 0x6a
@@ -231,6 +236,8 @@ binOp (op, F64) = case op of
   Max      -> putWord8 0xa5
   CopySign -> putWord8 0xa6
   _        -> todo -- not supported
+binOp (_, _) = todo
+
 
 convertOp :: (ConvertOp, Type) -> Put
 convertOp (op, I32) = case op of
@@ -266,6 +273,7 @@ convertOp (op, F64) = case op of
   PromoteF32     -> putWord8 0xbb
   ReinterpretI64 -> putWord8 0xbf
   _              -> todo -- not supported
+convertOp (_, _) = todo
 
 instance Serialize Value where
   put x = case x of
