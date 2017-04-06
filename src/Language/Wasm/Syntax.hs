@@ -9,9 +9,10 @@ module Language.Wasm.Syntax (
   Value(..),
   Param(..),
   Module(..),
-  Unop(..),
-  Binop(..),
-  Relop(..),
+  UnOp(..),
+  BinOp(..),
+  RelOp(..),
+  ConvertOp(..),
 ) where
 
 import Data.Int
@@ -40,15 +41,15 @@ data Expr
   | SetLocal Name Expr
   | LoadExtend Extop Expr
   | StoreWrap Wrapop Expr Expr
-  | Bin Binop Type Expr Expr
-  | Un Unop Type Expr
-  | Rel Relop Type Expr Expr
-  | Sel Selop Expr Expr Expr
-  | Convert Cvtop Expr
+  | Bin BinOp Type Expr Expr
+  | Un UnOp Type Expr
+  | Rel RelOp Type Expr Expr
+  | Sel SelOp Expr Expr Expr
+  | Convert ConvertOp Type Expr
   | Host Hostop [Expr]
   deriving (Eq, Show)
 
-data Unop
+data UnOp
   -- Integer
   = Clz
   | Ctz
@@ -64,7 +65,7 @@ data Unop
   | Sqrt
   deriving (Eq, Show)
 
-data Binop
+data BinOp
   = Add
   | Sub
   | Mul
@@ -87,11 +88,11 @@ data Binop
 
   deriving (Eq, Show)
 
-data Selop
+data SelOp
   = Select
   deriving (Eq, Show)
 
-data Relop
+data RelOp
   = Eqz
   | Eq
   | Ne
@@ -109,22 +110,20 @@ data Relop
   | Ge
   deriving (Eq, Show)
 
-data Cvtop
-  = ExtendSInt32
-  | ExtendUInt32
-  | WrapInt64
-  | TruncSFloat32
-  | TruncUFloat32
-  | TruncSFloat64
-  | TruncUFloat64
-  | ReinterpretFloat
-  | ConvertSInt32
-  | ConvertUInt32
-  | ConvertSInt64
-  | ConvertUInt64
-  | PromoteFloat32
-  | DemoteFloat64
-  | ReinterpretInt
+data ConvertOp
+  = WrapI64
+  | TruncSF32
+  | TruncUF32
+  | TruncSF64
+  | TruncUF64
+  | ExtendSI32
+  | ExtendUI32
+  | ConvertSI32
+  | ConvertUI32
+  | ConvertSI64
+  | ConvertUI64
+  | DemoteF64
+  | PromoteF32
   deriving (Eq, Show)
 
 data Extop

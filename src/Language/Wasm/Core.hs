@@ -15,9 +15,10 @@ module Language.Wasm.Core (
   Syn.Type(..),
   Syn.Value(..),
   {-Syn.Param(..),-}
-  Syn.Unop(..),
-  Syn.Binop(..),
-  Syn.Relop(..),
+  Syn.UnOp(..),
+  Syn.BinOp(..),
+  Syn.RelOp(..),
+  Syn.ConvertOp(..)
 ) where
 
 import qualified Language.Wasm.Syntax as Syn

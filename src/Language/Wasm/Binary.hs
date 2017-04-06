@@ -4,7 +4,6 @@
 module Language.Wasm.Binary where
 
 import Data.ByteString
-import qualified Data.List as List
 import Data.Serialize
 import Data.Word
 
@@ -105,7 +104,7 @@ instance Serialize Func where
   {-put (Result x) = return ()-}
   {-get = error "get Type"-}
 
-relOp :: (Relop, Type) -> Put
+relOp :: (RelOp, Type) -> Put
 relOp (op, I32) = case op of
   Eqz -> putWord8 0x45
   Eq  -> putWord8 0x46
@@ -150,7 +149,7 @@ relOp (op, F64) = case op of
   _  -> todo -- not supported
 
 
-unOp :: (Unop, Type) -> Put
+unOp :: (UnOp, Type) -> Put
 unOp (op, I32) = case op of
   Clz    -> putWord8 0x67
   Ctz    -> putWord8 0x68
@@ -179,7 +178,7 @@ unOp (op, F64) = case op of
   Nearest -> putWord8 0x9e
   Sqrt    -> putWord8 0x9f
   _       -> todo -- not supported
-binOp :: (Binop, Type) -> Put
+binOp :: (BinOp, Type) -> Put
 binOp (op, I32) = case op of
   Add  -> putWord8 0x6a
   Sub  -> putWord8 0x6b
@@ -232,6 +231,37 @@ binOp (op, F64) = case op of
   Max      -> putWord8 0xa5
   CopySign -> putWord8 0xa6
   _        -> todo -- not supported
+
+convertOp :: (ConvertOp, Type) -> Put
+convertOp (op, I32) = case op of
+  WrapI64   -> putWord8 0xa7
+  TruncSF32 -> putWord8 0xa8
+  TruncUF32 -> putWord8 0xa9
+  TruncSF64 -> putWord8 0xaa
+  TruncUF64 -> putWord8 0xab
+  _         -> todo -- not supported
+convertOp (op, I64) = case op of
+  ExtendSI32 -> putWord8 0xac
+  ExtendUI32 -> putWord8 0xad
+  TruncSF32  -> putWord8 0xae
+  TruncUF32  -> putWord8 0xaf
+  TruncSF64  -> putWord8 0xb0
+  TruncUF64  -> putWord8 0xb1
+  _          -> todo -- not supported
+convertOp (op, F32) = case op of
+  ConvertSI32 -> putWord8 0xb2
+  ConvertUI32 -> putWord8 0xb3
+  ConvertSI64 -> putWord8 0xb4
+  ConvertUI64 -> putWord8 0xb5
+  DemoteF64   -> putWord8 0xb6
+  _           -> todo -- not supported
+convertOp (op, F64) = case op of
+  ConvertSI32 -> putWord8 0xb7
+  ConvertUI32 -> putWord8 0xb8
+  ConvertSI64 -> putWord8 0xb9
+  ConvertUI64 -> putWord8 0xba
+  PromoteF32  -> putWord8 0xbb
+  _           -> todo -- not supported
 
 instance Serialize Value where
   put x = case x of
@@ -293,7 +323,7 @@ instance Serialize Expr where
       put x2
 
     Sel y1 y2 y3 y4    -> todo
-    Convert y1 y2      -> todo
+    Convert op ty x      -> todo
     Host y1 y2         -> todo
 
     Bin op ty x1 x2 -> do

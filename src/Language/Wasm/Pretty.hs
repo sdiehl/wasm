@@ -37,11 +37,11 @@ instance Pretty Expr where
                   Un unop typ e -> pretty typ <> dot <> pretty unop <+> parens (pretty e)
                   Rel relop typ e1 e2 -> pretty typ <> dot <> pretty relop <+> parens (pretty e1) <+> parens( pretty e2)
                   Sel selop e1 e2 e3 -> text "todo"
-                  Convert cvtop e -> text "todo"
+                  Convert cvtop ty e -> text "todo"
                   Host hostop _ -> text "todo"
 
 
-instance Pretty Binop where
+instance Pretty BinOp where
   pretty binop = case binop of
                   Add      -> text "add"
                   Sub      -> text "sub"
@@ -54,14 +54,16 @@ instance Pretty Binop where
                   Or       -> text "or"
                   Xor      -> text "xor"
                   Shl      -> text "shl"
-                  ShrU     -> text "shru"
-                  ShrS     -> text "shrs"
+                  ShrU     -> text "shr_u"
+                  ShrS     -> text "shr_s"
+                  RotL     -> text "rotl"
+                  RotR     -> text "Rotr"
                   Div      -> text "div"
                   CopySign -> text "copysign"
                   Min      -> text "min"
                   Max      -> text "max"
 
-instance Pretty Unop where
+instance Pretty UnOp where
   pretty unop = case unop of
                   Clz     -> text "clz"
                   Ctz     -> text "ctz"
@@ -74,8 +76,9 @@ instance Pretty Unop where
                   Nearest -> text "nearest"
                   Sqrt    -> text "sqrt"
 
-instance Pretty Relop where
+instance Pretty RelOp where
   pretty relop = case relop of
+                  Eqz  -> text "eqz"
                   Eq  -> text "eq"
                   Ne  -> text "ne"
                   LtS -> text "lts"
