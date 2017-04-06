@@ -118,7 +118,7 @@ relOp (op, I32) = case op of
   LeU-> putWord8 0x4d
   GeS -> putWord8 0x4e
   GeU-> putWord8 0x4f
-  _   -> todo -- actually not supported
+  _   -> todo -- not supported
 relOp (op, I64) = case op of
   Eqz -> putWord8 0x50
   Eq  -> putWord8 0x51
@@ -131,7 +131,7 @@ relOp (op, I64) = case op of
   LeU-> putWord8 0x58
   GeS -> putWord8 0x59
   GeU-> putWord8 0x5a
-  _   -> todo -- actually not supported
+  _   -> todo -- not supported
 relOp (op, F32) = case op of
   Eq -> putWord8 0x5b
   Ne -> putWord8 0x5c
@@ -139,7 +139,7 @@ relOp (op, F32) = case op of
   Gt -> putWord8 0x5e
   Le -> putWord8 0x5f
   Ge -> putWord8 0x60
-  _  -> todo -- actually not supported
+  _  -> todo -- not supported
 relOp (op, F64) = case op of
   Eq -> putWord8 0x61
   Ne -> putWord8 0x62
@@ -147,7 +147,7 @@ relOp (op, F64) = case op of
   Gt -> putWord8 0x64
   Le -> putWord8 0x65
   Ge -> putWord8 0x66
-  _  -> todo -- actually not supported
+  _  -> todo -- not supported
 
 
 unOp :: (Unop, Type) -> Put
@@ -155,10 +155,12 @@ unOp (op, I32) = case op of
   Clz    -> putWord8 0x67
   Ctz    -> putWord8 0x68
   Popcnt -> putWord8 0x69
+  _      -> todo -- not supported
 unOp (op, I64) = case op of
   Clz    -> putWord8 0x79
   Ctz    -> putWord8 0x7a
   Popcnt -> putWord8 0x7b
+  _      -> todo -- not supported
 unOp (op, F32) = case op of
   Abs     -> putWord8 0x8b
   Neg     -> putWord8 0x8c
@@ -167,6 +169,7 @@ unOp (op, F32) = case op of
   Trunc   -> putWord8 0x8f
   Nearest -> putWord8 0x90
   Sqrt    -> putWord8 0x91
+  _       -> todo -- not supported
 unOp (op, F64) = case op of
   Abs     -> putWord8 0x99
   Neg     -> putWord8 0x9a
@@ -175,7 +178,7 @@ unOp (op, F64) = case op of
   Trunc   -> putWord8 0x9d
   Nearest -> putWord8 0x9e
   Sqrt    -> putWord8 0x9f
-
+  _       -> todo -- not supported
 binOp :: (Binop, Type) -> Put
 binOp (op, I32) = case op of
   Add  -> putWord8 0x6a
@@ -193,7 +196,7 @@ binOp (op, I32) = case op of
   ShrU -> putWord8 0x76
   RotL -> putWord8 0x77
   RotR -> putWord8 0x78
-  _    -> todo -- actually not supported
+  _    -> todo -- not supported
 binOp (op, I64) = case op of
   Add  -> putWord8 0x7c
   Sub  -> putWord8 0x7d
@@ -210,7 +213,7 @@ binOp (op, I64) = case op of
   ShrU -> putWord8 0x88
   RotL -> putWord8 0x89
   RotR -> putWord8 0x8a
-  _    -> todo -- actually not supported
+  _    -> todo -- not supported
 binOp (op, F32) = case op of
   Add      -> putWord8 0x92
   Sub      -> putWord8 0x93
@@ -219,7 +222,7 @@ binOp (op, F32) = case op of
   Min      -> putWord8 0x96
   Max      -> putWord8 0x97
   CopySign -> putWord8 0x98
-  _        -> todo -- actually not supported
+  _        -> todo -- not supported
 binOp (op, F64) = case op of
   Add      -> putWord8 0xa0
   Sub      -> putWord8 0xa1
@@ -228,7 +231,7 @@ binOp (op, F64) = case op of
   Min      -> putWord8 0xa4
   Max      -> putWord8 0xa5
   CopySign -> putWord8 0xa6
-  _        -> todo -- actually not supported
+  _        -> todo -- not supported
 
 instance Serialize Value where
   put x = case x of
@@ -280,7 +283,9 @@ instance Serialize Expr where
     SetLocal y1 y2     -> todo
     LoadExtend y1 y2   -> todo
     StoreWrap y1 y2 y3 -> todo
-    Un y1 y2 y3        -> todo
+    Un op ty x  -> do
+      unOp (op, ty)
+      put x
 
     Rel op ty x1 x2    -> do
       relOp (op, ty)
@@ -295,9 +300,6 @@ instance Serialize Expr where
       binOp (op, ty)
       put x1
       put x2
-    Un op ty x1  -> do
-      unOp (op, ty)
-      put x1
 
 
   get = error "get Type"
