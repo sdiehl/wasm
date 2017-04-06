@@ -149,43 +149,86 @@ relOp (op, F64) = case op of
   Ge -> putWord8 0x66
   _  -> todo -- actually not supported
 
+
+unOp :: (Unop, Type) -> Put
+unOp (op, I32) = case op of
+  Clz    -> putWord8 0x67
+  Ctz    -> putWord8 0x68
+  Popcnt -> putWord8 0x69
+unOp (op, I64) = case op of
+  Clz    -> putWord8 0x79
+  Ctz    -> putWord8 0x7a
+  Popcnt -> putWord8 0x7b
+unOp (op, F32) = case op of
+  Abs     -> putWord8 0x8b
+  Neg     -> putWord8 0x8c
+  Ceil    -> putWord8 0x8d
+  Floor   -> putWord8 0x8e
+  Trunc   -> putWord8 0x8f
+  Nearest -> putWord8 0x90
+  Sqrt    -> putWord8 0x91
+unOp (op, F64) = case op of
+  Abs     -> putWord8 0x99
+  Neg     -> putWord8 0x9a
+  Ceil    -> putWord8 0x9b
+  Floor   -> putWord8 0x9c
+  Trunc   -> putWord8 0x9d
+  Nearest -> putWord8 0x9e
+  Sqrt    -> putWord8 0x9f
+
 binOp :: (Binop, Type) -> Put
 binOp (op, I32) = case op of
-  Add      -> putWord8 0x40
-  Sub      -> todo
-  Mul      -> putWord8 0x42
-  DivS     -> todo
-  DivU     -> todo
-  RemS     -> todo
-  RemU     -> todo
-  And      -> todo
-  Or       -> todo
-  Xor      -> todo
-  Shl      -> todo
-  ShrU     -> todo
-  ShrS     -> todo
-  Div      -> todo
-  CopySign -> todo
-  Min      -> todo
-  Max      -> todo
+  Add  -> putWord8 0x6a
+  Sub  -> putWord8 0x6b
+  Mul  -> putWord8 0x6c
+  DivS -> putWord8 0x6d
+  DivU -> putWord8 0x6e
+  RemS -> putWord8 0x6f
+  RemU -> putWord8 0x70
+  And  -> putWord8 0x71
+  Or   -> putWord8 0x72
+  Xor  -> putWord8 0x73
+  Shl  -> putWord8 0x74
+  ShrS -> putWord8 0x75
+  ShrU -> putWord8 0x76
+  RotL -> putWord8 0x77
+  RotR -> putWord8 0x78
+  _    -> todo -- actually not supported
 binOp (op, I64) = case op of
-  Add      -> putWord8 0x5b
-  Sub      -> putWord8 0x5c
-  Mul      -> putWord8 0x5d
-  DivS     -> todo
-  DivU     -> todo
-  RemS     -> todo
-  RemU     -> todo
-  And      -> todo
-  Or       -> todo
-  Xor      -> todo
-  Shl      -> todo
-  ShrU     -> todo
-  ShrS     -> todo
-  Div      -> todo
-  CopySign -> todo
-  Min      -> todo
-  Max      -> todo
+  Add  -> putWord8 0x7c
+  Sub  -> putWord8 0x7d
+  Mul  -> putWord8 0x7e
+  DivS -> putWord8 0x7f
+  DivU -> putWord8 0x80
+  RemS -> putWord8 0x81
+  RemU -> putWord8 0x82
+  And  -> putWord8 0x83
+  Or   -> putWord8 0x84
+  Xor  -> putWord8 0x85
+  Shl  -> putWord8 0x86
+  ShrS -> putWord8 0x87
+  ShrU -> putWord8 0x88
+  RotL -> putWord8 0x89
+  RotR -> putWord8 0x8a
+  _    -> todo -- actually not supported
+binOp (op, F32) = case op of
+  Add      -> putWord8 0x92
+  Sub      -> putWord8 0x93
+  Mul      -> putWord8 0x94
+  Div      -> putWord8 0x95
+  Min      -> putWord8 0x96
+  Max      -> putWord8 0x97
+  CopySign -> putWord8 0x98
+  _        -> todo -- actually not supported
+binOp (op, F64) = case op of
+  Add      -> putWord8 0xa0
+  Sub      -> putWord8 0xa1
+  Mul      -> putWord8 0xa2
+  Div      -> putWord8 0xa3
+  Min      -> putWord8 0xa4
+  Max      -> putWord8 0xa5
+  CopySign -> putWord8 0xa6
+  _        -> todo -- actually not supported
 
 instance Serialize Value where
   put x = case x of
@@ -252,6 +295,10 @@ instance Serialize Expr where
       binOp (op, ty)
       put x1
       put x2
+    Un op ty x1  -> do
+      unOp (op, ty)
+      put x1
+
 
   get = error "get Type"
 

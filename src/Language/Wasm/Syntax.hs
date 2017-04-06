@@ -65,7 +65,6 @@ data Unop
   deriving (Eq, Show)
 
 data Binop
-  -- Integer
   = Add
   | Sub
   | Mul
@@ -79,12 +78,13 @@ data Binop
   | Shl
   | ShrU
   | ShrS
-
-  -- Floating Point
+  | RotR
+  | RotL
   | Div
   | CopySign
   | Min
   | Max
+
   deriving (Eq, Show)
 
 data Selop
