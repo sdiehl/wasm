@@ -25,6 +25,7 @@ A portable machine architecture for the web.
 * [backend prototype](https://github.com/ncbray/wassembler/blob/master/v8/backend.js)
 * [WasmExplorer](https://mbebenita.github.io/WasmExplorer/)
 * [Javascript API](http://webassembly.org/docs/js/)
+* [Spec](https://webassembly.github.io/spec/index.html)
 
 **Binary Protocol**
 
