@@ -234,34 +234,38 @@ binOp (op, F64) = case op of
 
 convertOp :: (ConvertOp, Type) -> Put
 convertOp (op, I32) = case op of
-  WrapI64   -> putWord8 0xa7
-  TruncSF32 -> putWord8 0xa8
-  TruncUF32 -> putWord8 0xa9
-  TruncSF64 -> putWord8 0xaa
-  TruncUF64 -> putWord8 0xab
-  _         -> todo -- not supported
+  WrapI64        -> putWord8 0xa7
+  TruncSF32      -> putWord8 0xa8
+  TruncUF32      -> putWord8 0xa9
+  TruncSF64      -> putWord8 0xaa
+  TruncUF64      -> putWord8 0xab
+  ReinterpretF32 -> putWord8 0xbc
+  _              -> todo -- not supported
 convertOp (op, I64) = case op of
-  ExtendSI32 -> putWord8 0xac
-  ExtendUI32 -> putWord8 0xad
-  TruncSF32  -> putWord8 0xae
-  TruncUF32  -> putWord8 0xaf
-  TruncSF64  -> putWord8 0xb0
-  TruncUF64  -> putWord8 0xb1
-  _          -> todo -- not supported
+  ExtendSI32     -> putWord8 0xac
+  ExtendUI32     -> putWord8 0xad
+  TruncSF32      -> putWord8 0xae
+  TruncUF32      -> putWord8 0xaf
+  TruncSF64      -> putWord8 0xb0
+  TruncUF64      -> putWord8 0xb1
+  ReinterpretF64 -> putWord8 0xbd
+  _              -> todo -- not supported
 convertOp (op, F32) = case op of
-  ConvertSI32 -> putWord8 0xb2
-  ConvertUI32 -> putWord8 0xb3
-  ConvertSI64 -> putWord8 0xb4
-  ConvertUI64 -> putWord8 0xb5
-  DemoteF64   -> putWord8 0xb6
-  _           -> todo -- not supported
+  ConvertSI32    -> putWord8 0xb2
+  ConvertUI32    -> putWord8 0xb3
+  ConvertSI64    -> putWord8 0xb4
+  ConvertUI64    -> putWord8 0xb5
+  DemoteF64      -> putWord8 0xb6
+  ReinterpretI32 -> putWord8 0xbe
+  _              -> todo -- not supported
 convertOp (op, F64) = case op of
-  ConvertSI32 -> putWord8 0xb7
-  ConvertUI32 -> putWord8 0xb8
-  ConvertSI64 -> putWord8 0xb9
-  ConvertUI64 -> putWord8 0xba
-  PromoteF32  -> putWord8 0xbb
-  _           -> todo -- not supported
+  ConvertSI32    -> putWord8 0xb7
+  ConvertUI32    -> putWord8 0xb8
+  ConvertSI64    -> putWord8 0xb9
+  ConvertUI64    -> putWord8 0xba
+  PromoteF32     -> putWord8 0xbb
+  ReinterpretI64 -> putWord8 0xbf
+  _              -> todo -- not supported
 
 instance Serialize Value where
   put x = case x of

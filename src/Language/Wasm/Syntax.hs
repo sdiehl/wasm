@@ -124,6 +124,11 @@ data ConvertOp
   | ConvertUI64
   | DemoteF64
   | PromoteF32
+
+  | ReinterpretF32
+  | ReinterpretF64
+  | ReinterpretI32
+  | ReinterpretI64
   deriving (Eq, Show)
 
 data Extop
