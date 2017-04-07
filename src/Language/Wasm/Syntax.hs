@@ -12,6 +12,8 @@ module Language.Wasm.Syntax (
   Unop(..),
   Binop(..),
   Relop(..),
+  Assertion(..),
+  Action(..),
 ) where
 
 import Data.Int
@@ -174,6 +176,24 @@ data Value
 data Decl
   = ModDecl Module
   | ExprDecl Expr
+  | AssertionDecl Assertion
+  deriving (Eq, Show)
+
+
+data Assertion
+  = Ret Action Expr
+  | RetNaN Action
+  | Trap Action Name
+  | Exhaustion Action Name
+  -- | Malformed
+  -- | Invalid
+  -- | Unlinkable
+  -- | Uninstantiable
+  deriving (Eq, Show)
+
+data Action
+  = Invoke (Maybe Name) Name [Expr]
+  | Get (Maybe Name)
   deriving (Eq, Show)
 
 data Func = Func
@@ -181,11 +201,11 @@ data Func = Func
   , _params :: [Param]
   , _body   :: [Expr]
   }
-  | Export String Value
+  | Export String Name
   | Import Name Int
   deriving (Eq, Show)
 
-data Module = Module
+newtype Module = Module
   { _funcs :: [Func]
   } deriving (Eq, Show)
 

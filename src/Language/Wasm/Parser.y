@@ -63,7 +63,23 @@ real               { TReal $$ }
 'sub'              { TKey "sub" }
 'div'              { TKey "div" }
 'abs'              { TKey "abs" }
+
 'eq'               { TKey "eq" }
+'ne'               { TKey "ne" }
+'lts'              { TKey "lts" }
+'ltu'              { TKey "ltu" }
+'les'              { TKey "les" }
+'leu'              { TKey "leu" }
+'gts'              { TKey "gts" }
+'gtu'              { TKey "gtu" }
+'ges'              { TKey "ges" }
+'geu'              { TKey "geu" }
+'lt'               { TKey "lt" }
+'le'               { TKey "le" }
+'gt'               { TKey "gt" }
+'ge'               { TKey "ge" }
+
+
 'min'              { TKey "min" }
 'max'              { TKey "max" }
 'ceil'             { TKey "ceil" }
@@ -77,6 +93,13 @@ real               { TReal $$ }
 'nop'              { TKey "nop" }
 'unreachable'      { TKey "nop" }
 
+'assert_return'      { TKey "assert_return" }
+'assert_return_nan'      { TKey "assert_return_nan" }
+'assert_trap'      { TKey "assert_trap" }
+'assert_exhaustion'      { TKey "assert_exhaustion" }
+
+'invoke'      { TKey "invoke" }
+'get'      { TKey "get" }
 
 %left 'and' 'or' 'xor'
 %left '<' '>' '<=' '>=' '=' '/='
@@ -96,10 +119,23 @@ name :: { Name }
 
 top :: { Decl }
  : mod                            { ModDecl $1 }
+ | assertion                      { AssertionDecl $1 }
  | sexp                           { ExprDecl $1 }
 
 mod :: { Module }
  : '(' 'module' list(func) ')'    { Module $3 }
+
+assertion :: { Assertion }
+ : '(' 'assert_return' action sexp ')'    { Ret $3 $4 }
+ | '(' 'assert_return_nan' action ')'    { RetNaN $3 }
+ | '(' 'assert_trap' action name ')'    { Trap $3 $4 }
+ | '(' 'assert_exhaustion' action name ')'    { Exhaustion $3 $4 }
+
+action :: { Action }
+ : '(' 'invoke' name name list(sexp) ')' { Invoke (Just $3) $4 $5 }
+ | '(' 'invoke' name list(sexp) ')' { Invoke Nothing $3 $4 }
+ | '(' 'get' name ')' { Get (Just $3) }
+ | '(' 'get' ')' { Get Nothing }
 
 typ :: { Type }
  : 'i32'                           { I32 }
@@ -121,7 +157,7 @@ func :: { Func }
  | '(' 'func' list1(param) ')'
  { Func Nothing $3 [] }
 
- | '(' 'export' str value ')'     { Export $3 $4 }
+ | '(' 'export' str name ')'     { Export $3 $4 }
 
 sexp :: { Expr }
  : '(' expr ')'                   { $2 }
@@ -151,6 +187,19 @@ unop :: { Unop }
 
 relop :: { Relop }
  : 'eq'                           { Eq }
+ | 'ne'                           { Ne }
+ | 'lts'                          { LtS }
+ | 'ltu'                          { LtU }
+ | 'les'                          { LeS }
+ | 'leu'                          { LeU }
+ | 'gts'                          { GtS }
+ | 'gtu'                          { GtU }
+ | 'ges'                          { GeS }
+ | 'geu'                          { GeU }
+ | 'lt'                           { Lt }
+ | 'le'                           { Le }
+ | 'gt'                           { Gt }
+ | 'ge'                           { Ge }
 
 expr :: { Expr }
  : 'nop'                          { Nop }
@@ -171,12 +220,6 @@ expr :: { Expr }
  | 'call' name list(sexp)         { Call $2 $3 }
  | 'get_local' name               { GetLocal $2 }
  | 'set_local' name sexp          { SetLocal $2 $3 }
-
- -- | 'i32' '.' 'const' value          { Const I32 $4 }
- -- | 'i64' '.' 'const' value        { Const I64 $4 }
- -- | 'f32' '.' 'const' value        { Const F32 $4 }
- -- | 'f64' '.' 'const' value        { Const F64 $4 }
-
  | typ '.' binop sexp sexp        { Bin $3 $1 $4 $5 }
  | typ '.' unop sexp              { Un $3 $1 $4 }
  | typ '.' 'const' value          { Const $1 $4 }

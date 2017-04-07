@@ -4,4 +4,3 @@
 )
 
 (assert_return (invoke "return-none"))
-
