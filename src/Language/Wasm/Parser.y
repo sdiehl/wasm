@@ -131,7 +131,7 @@ value :: { Value }
  : real                           { VF32 (undefined $1) }
  | integer                        { VI32 (fromInteger $1) }
 
-binop :: { Binop }
+binop :: { BinOp }
  : 'mul'                          { Mul }
  | 'add'                          { Add }
  | 'sub'                          { Sub }
@@ -140,7 +140,7 @@ binop :: { Binop }
  | 'max'                          { Max }
  | 'copysign'                     { CopySign }
 
-unop :: { Unop }
+unop :: { UnOp }
  : 'neg'                          { Neg }
  | 'abs'                          { Abs }
  | 'ceil'                         { Ceil }
@@ -149,7 +149,7 @@ unop :: { Unop }
  | 'nearest'                      { Nearest }
  | 'sqrt'                         { Sqrt }
 
-relop :: { Relop }
+relop :: { RelOp }
  : 'eq'                           { Eq }
 
 expr :: { Expr }
