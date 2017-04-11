@@ -2,9 +2,16 @@ module Language.Wasm.Validator where
 import Control.Applicative.Lift
 import Language.Wasm.Core
 
+
 data Mutability = Immutable | Mutable deriving (Eq, Show)
 
 data GlobalType = GlobalType Type Mutability deriving (Eq, Show)
+
+data ExternType
+  = ExternFuncType
+  | ExternTableType
+  | ExternMemoryType
+  | ExternGlobalType GlobalType
 
 data Context = Context
   { mod     :: Module
@@ -28,30 +35,31 @@ data ValidationError
 type ValidatorM = Errors ValidationError
 
 validate :: Context -> Expr -> ValidatorM Type
-validate ctx Nop               = todo
-validate ctx Unreachable       = todo
-validate ctx (Block y xs)      = todo
-validate ctx (If y z)          = todo
-validate ctx (IfElse y z w)    = todo
-validate ctx (BrIf y z w)      = todo
-validate ctx (Loop y z xs)     = todo
-validate ctx (Br y z)          = todo
-validate ctx (Return y)        = todo
-validate ctx (Call y xs)       = todo
-validate ctx (Const y z)       = todo
-validate ctx (Lit y)           = todo
-validate ctx (Load y z)        = todo
-validate ctx (Store y z)       = todo
-validate ctx (GetLocal y)      = todo
-validate ctx (SetLocal y z)    = todo
-validate ctx (LoadExtend y z)  = todo
-validate ctx (StoreWrap y z w) = todo
-validate ctx (Bin y z w s)     = todo
-validate ctx (Un y z w)        = todo
-validate ctx (Rel y z w s)     = todo
-validate ctx (Sel y z w s)     = todo
-validate ctx (Convert y z w)   = todo
-validate ctx (Host y xs)       = todo
+validate ctx expr = case expr of
+              Nop               ->  todo
+              Unreachable       ->  todo
+              (Block x xs)      ->  todo
+              (If x y)          ->  todo
+              (IfElse x y z)    ->  todo
+              (BrIf x y z)      ->  todo
+              (Loop x y xs)     ->  todo
+              (Br x y)          ->  todo
+              (Return x)        ->  todo
+              (Call x xs)       ->  todo
+              (Const x y)       ->  todo
+              (Lit x)           ->  todo
+              (Load x y)        ->  todo
+              (Store x y)       ->  todo
+              (GetLocal x)      ->  todo
+              (SetLocal x y)    ->  todo
+              (LoadExtend x y)  ->  todo
+              (StoreWrap x y z) ->  todo
+              (Bin x y z w)     ->  todo
+              (Un x y z)        ->  todo
+              (Rel x y z w)     ->  todo
+              (Sel x y z w)     ->  todo
+              (Convert x y z)   ->  todo
+              (Host x xs)       ->  todo
 
 
 todo = failure NotImplemented
