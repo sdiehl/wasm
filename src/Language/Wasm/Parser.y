@@ -169,8 +169,8 @@ expr :: { Expr }
  | 'br' name                      { Br $2 Nothing }
  | 'return' sexp                  { Return $2 }
  | 'call' name list(sexp)         { Call $2 $3 }
- | 'get_local' integer               { GetLocal (fromInteger $2) }
- | 'set_local' integer sexp          { SetLocal (fromInteger $2) $3 }
+ | 'get_local' name               { GetLocal $2 }
+ | 'set_local' name sexp          { SetLocal $2 $3 }
 
  -- | 'i32' '.' 'const' value          { Const I32 $4 }
  -- | 'i64' '.' 'const' value        { Const I64 $4 }

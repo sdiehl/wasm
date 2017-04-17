@@ -37,8 +37,8 @@ data Expr
   | Lit Value
   | Load MemOp Expr
   | Store MemOp Expr
-  | GetLocal Int
-  | SetLocal Int Expr
+  | GetLocal Name
+  | SetLocal Name Expr
   | LoadExtend ExtOp Expr
   | StoreWrap WrapOp Expr Expr
   | Bin BinOp Type Expr Expr
