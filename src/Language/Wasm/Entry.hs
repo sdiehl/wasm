@@ -31,10 +31,7 @@ parse :: String -> Either ParseError [Decl]
 parse fs = runParseM prog (scan fs)
 
 file :: FilePath -> IO (Either ParseError [Decl])
-file fname = do
-  contents <- readFile fname
-  {-print $ scan contents-}
-  return $ parse contents
+file fname = parse `fmap` readFile fname
 
 main :: IO ()
 main = do

@@ -42,76 +42,76 @@ instance Pretty Expr where
 
 
 instance Pretty BinOp where
-  pretty binop = case binop of
-                  Add      -> text "add"
-                  Sub      -> text "sub"
-                  Mul      -> text "mul"
-                  DivS     -> text "divs"
-                  DivU     -> text "divu"
-                  RemS     -> text "rems"
-                  RemU     -> text "remu"
-                  And      -> text "and"
-                  Or       -> text "or"
-                  Xor      -> text "xor"
-                  Shl      -> text "shl"
-                  ShrU     -> text "shr_u"
-                  ShrS     -> text "shr_s"
-                  RotL     -> text "rotl"
-                  RotR     -> text "Rotr"
-                  Div      -> text "div"
-                  CopySign -> text "copysign"
-                  Min      -> text "min"
-                  Max      -> text "max"
+  pretty binop = text $ case binop of
+                  Add      -> "add"
+                  Sub      -> "sub"
+                  Mul      -> "mul"
+                  DivS     -> "divs"
+                  DivU     -> "divu"
+                  RemS     -> "rems"
+                  RemU     -> "remu"
+                  And      -> "and"
+                  Or       -> "or"
+                  Xor      -> "xor"
+                  Shl      -> "shl"
+                  ShrU     -> "shr_u"
+                  ShrS     -> "shr_s"
+                  RotL     -> "rotl"
+                  RotR     -> "Rotr"
+                  Div      -> "div"
+                  CopySign -> "copysign"
+                  Min      -> "min"
+                  Max      -> "max"
 
 instance Pretty UnOp where
-  pretty unop = case unop of
-                  Clz     -> text "clz"
-                  Ctz     -> text "ctz"
-                  Popcnt  -> text "popcnt"
-                  Neg     -> text "neg"
-                  Abs     -> text "abs"
-                  Ceil    -> text "ceil"
-                  Floor   -> text "floor"
-                  Trunc   -> text "trunc"
-                  Nearest -> text "nearest"
-                  Sqrt    -> text "sqrt"
+  pretty unop = text $ case unop of
+                  Clz     -> "clz"
+                  Ctz     -> "ctz"
+                  Popcnt  -> "popcnt"
+                  Neg     -> "neg"
+                  Abs     -> "abs"
+                  Ceil    -> "ceil"
+                  Floor   -> "floor"
+                  Trunc   -> "trunc"
+                  Nearest -> "nearest"
+                  Sqrt    -> "sqrt"
 
 instance Pretty RelOp where
-  pretty relop = case relop of
-                  Eqz  -> text "eqz"
-                  Eq  -> text "eq"
-                  Ne  -> text "ne"
-                  LtS -> text "lts"
-                  LtU -> text "ltu"
-                  LeS -> text "les"
-                  LeU -> text "leu"
-                  GtS -> text "gts"
-                  GtU -> text "gtu"
-                  GeS -> text "ges"
-                  GeU -> text "geu"
-                  Lt  -> text "lt"
-                  Le  -> text "le"
-                  Gt  -> text "gt"
-                  Ge  -> text "ge"
+  pretty relop = text $ case relop of
+                  Eqz  -> "eqz"
+                  Eq  -> "eq"
+                  Ne  -> "ne"
+                  LtS -> "lts"
+                  LtU -> "ltu"
+                  LeS -> "les"
+                  LeU -> "leu"
+                  GtS -> "gts"
+                  GtU -> "gtu"
+                  GeS -> "ges"
+                  GeU -> "geu"
+                  Lt  -> "lt"
+                  Le  -> "le"
+                  Gt  -> "gt"
+                  Ge  -> "ge"
 
 instance Pretty Value where
-  pretty value = case value of
-                  (VI32 v) -> text (show v)
-                  (VI64 v) -> text (show v)
-                  (VF32 v) -> text (show v)
-                  (VF64 v) -> text (show v)
+  pretty value = text $ case value of
+                  VI32 v -> show v
+                  VI64 v -> show v
+                  VF32 v -> show v
+                  VF64 v -> show v
 
 instance Pretty Func where
   prettyList = vsep . map (parens . pretty)
   pretty f = case f of
-              (Export name value) -> text "export" <+> pretty name <+> pretty value
-              (Import name value) -> text "Import" <+> pretty name <+> pretty value
-              (Func name params body) -> nest 4 (text "func" <+> maybe empty pretty name <+> pretty params <$> pretty body )
+              Export name value -> text "export" <+> pretty name <+> pretty value
+              Import name value -> text "Import" <+> pretty name <+> pretty value
+              Func name params body -> nest 4 (text "func" <+> maybe empty pretty name <+> pretty params <$> pretty body )
 
 instance Pretty Decl where
   pretty d = case d of
-              (ModDecl m)     -> pretty m
-              (ExprDecl expr) -> pretty expr
+              ModDecl m     -> pretty m
+              ExprDecl expr -> pretty expr
 
 instance Pretty Module where
   pretty Module { _funcs=funcs } = parens (nest 4 (text "module" <$> pretty funcs))
@@ -119,16 +119,16 @@ instance Pretty Module where
 instance Pretty Param where
   prettyList = fillSep . map (parens . pretty)
   pretty param = case param of
-                  (Param (Just name) typ) -> text  "param" <+> pretty name <+> pretty typ
-                  (Param Nothing typ) -> text  "param" <+> pretty typ
-                  (Result typ) -> text  "result" <+> pretty typ
-                  (Body expr) -> pretty expr
+                  Param (Just name) typ -> text  "param" <+> pretty name <+> pretty typ
+                  Param Nothing typ -> text  "param" <+> pretty typ
+                  Result typ -> text  "result" <+> pretty typ
+                  Body expr -> pretty expr
 
 instance Pretty Type where
-  pretty ty = case ty of
-                Void -> text "void"
-                I32  -> text "i32"
-                I64  -> text "i64"
-                F32  -> text "f32"
-                F64  -> text "f64"
-                All  -> text "all"
+  pretty ty = text $ case ty of
+                Void -> "void"
+                I32  -> "i32"
+                I64  -> "i64"
+                F32  -> "f32"
+                F64  -> "f64"
+                All  -> "all"
