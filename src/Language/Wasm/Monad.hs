@@ -24,17 +24,14 @@ runParseM m ts = fst <$> unParseM m (S cs ts')
   where (cs, ts') = splitCommentTokens ts
 
 instance Functor ParseM where
-  fmap f m = ParseM $ \s ->
-    case unParseM m s of
-      Left err      -> Left err
-      Right (x, s') -> Right (f x, s')
-
+  fmap f m = ParseM $
+    fmap (\(x, s') -> (f x, s')) . unParseM m
+    
 instance Monad ParseM where
   return x = ParseM $ \s -> Right (x, s)
-  m >>= k  = ParseM $ \s ->
-    case unParseM m s of
-      Left err      -> Left err
-      Right (x, s') -> unParseM (k x) s'
+  m >>= k  = ParseM $ \s -> do
+    (x, s') <- unParseM m s
+    unParseM (k x) s'
 
 instance Applicative ParseM where
   pure = return
@@ -54,9 +51,9 @@ getComments = ParseM $ \(S cs ts) -> Right (cs, S [] ts)
 nextNonCommentToken :: ParseM Token
 nextNonCommentToken = ParseM $ \(S _ ts) ->
   let (cs, ts') = splitCommentTokens ts in
-  case ts' of
-    (t : ts'') -> Right (t, S cs ts'')
-    []         -> Right (TEnd, S cs ts')
+  Right $ case ts' of
+    (t : ts'') -> (t, S cs ts'')
+    []         -> (TEnd, S cs ts')
 
 lexerP :: (Token -> ParseM a) -> ParseM a
 lexerP = (nextNonCommentToken >>=)
