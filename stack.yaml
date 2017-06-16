@@ -4,5 +4,6 @@ packages:
 extra-deps:
 - repline-0.1.4.0
 - io-capture-0.3
+- containers-0.5.10.2
 flags: {}
 extra-package-dbs: []

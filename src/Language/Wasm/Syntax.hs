@@ -35,18 +35,18 @@ data Expr
   | Call Name [Expr]
   | Const Type Value
   | Lit Value
-  | Load Memop Expr
-  | Store Memop Expr
+  | Load MemOp Expr
+  | Store MemOp Expr
   | GetLocal Name
   | SetLocal Name Expr
-  | LoadExtend Extop Expr
-  | StoreWrap Wrapop Expr Expr
+  | LoadExtend ExtOp Expr
+  | StoreWrap WrapOp Expr Expr
   | Bin BinOp Type Expr Expr
   | Un UnOp Type Expr
   | Rel RelOp Type Expr Expr
   | Sel SelOp Expr Expr Expr
   | Convert ConvertOp Type Expr
-  | Host Hostop [Expr]
+  | Host HostOp [Expr]
   deriving (Eq, Show)
 
 data UnOp
@@ -131,12 +131,12 @@ data ConvertOp
   | ReinterpretI64
   deriving (Eq, Show)
 
-data Extop
-  = Extop Memop MemSize Extension
+data ExtOp
+  = ExtOp MemOp MemSize Extension
   deriving (Eq, Show)
 
-data Wrapop
-  = Wrapop Memop MemSize
+data WrapOp
+  = WrapOp MemOp MemSize
   deriving (Eq, Show)
 
 type Address = Int64
@@ -154,13 +154,13 @@ data Extension
   | ZX
   deriving (Eq, Show)
 
-data Memop = Memop
+data MemOp = MemOp
   { ty     :: Value
   , offset :: Offset
   , align  :: Maybe Int
-  } deriving (Eq, Show)
+  }  deriving (Eq, Show)
 
-data Hostop
+data HostOp
   = MemorySize
   | GrowMemory
   | HasFeature Name
@@ -187,7 +187,7 @@ data Func = Func
   | Import Name Int
   deriving (Eq, Show)
 
-data Module = Module
+newtype Module = Module
   { _funcs :: [Func]
   } deriving (Eq, Show)
 
@@ -205,4 +205,5 @@ data Type
   | F32
   | F64
   | All
+  | Arrow [Type] Type
   deriving (Eq, Show)
