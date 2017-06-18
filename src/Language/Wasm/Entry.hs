@@ -48,8 +48,6 @@ main = do
       let bs = encode (toCore mod)
       putStrLn $ "=== HEX ==="
       putStrLn $ Hexdump.prettyHex bs
-      BS.writeFile "example1.bin" bs
-      system "hexdump example1.bin"
       return ()
     Right _ -> return ()
 
