@@ -164,7 +164,7 @@ Core modules
 ```
 
 
-Will generate
+Will generate:
 
 ```
 0000000 0101 0100 0102 0009 1500 0000 0500 4000

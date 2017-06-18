@@ -16,11 +16,17 @@ module Language.Wasm.Syntax (
 ) where
 
 import Data.Int
+import Data.Word
 import Data.String
 import qualified Data.Text as T
 
-newtype Name = Name T.Text
-  deriving (Eq, Ord, Show, IsString)
+data Name 
+  = Name T.Text
+  | UnName Word32
+  deriving (Eq, Ord, Show)
+
+instance IsString Name where
+  fromString = Name . T.pack
 
 data Expr
   = Nop
@@ -85,7 +91,6 @@ data BinOp
   | CopySign
   | Min
   | Max
-
   deriving (Eq, Show)
 
 data SelOp

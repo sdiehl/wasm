@@ -23,12 +23,6 @@ module Language.Wasm.Core (
 
 import qualified Language.Wasm.Syntax as Syn
 
-{-class ToCore a b | a -> b where-}
-  {-toCore :: a -> b-}
-
-{-instance ToCore Syn.Module Module where-}
-  {-toCore = undefined-}
-
 data Decl
   = ModDecl Module
   | ExprDecl Syn.Expr

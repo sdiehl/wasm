@@ -1,29 +1,25 @@
 module Language.Wasm.Entry(
   main,
-  parse
+  parse,
 ) where
 
-import Language.Wasm.Binary
 import Language.Wasm.Core (toCore)
-import Language.Wasm.Eval
-import Language.Wasm.Hex
+{-import Language.Wasm.Hex-}
 import Language.Wasm.Lexer
 import Language.Wasm.Monad
 import Language.Wasm.Parser
-import Language.Wasm.Pretty
+import Language.Wasm.Pretty ()
 import Language.Wasm.Syntax
-import Language.Wasm.Verify
-
-import Control.Applicative
-import Control.Monad
+{-import Language.Wasm.Eval-}
+import Language.Wasm.Binary ()
+{-import Language.Wasm.Verify-}
 
 import qualified Data.ByteString as BS
-import Data.Char
 import Data.Serialize
-import Data.Word
 import System.Environment
 import System.Process
 import Text.PrettyPrint.ANSI.Leijen
+import qualified Hexdump
 
 -- import           Text.Show.Pretty
 
@@ -46,14 +42,16 @@ main = do
   case ast1 of
     Left err -> return ()
     Right [mod] -> do
+      {-putStrLn $ "=== AST ==="-}
       putDoc $ pretty mod
+      putStrLn $ "=== WAST ==="
       let bs = encode (toCore mod)
-      {-mapM_ print (ByteString.unpack bs)-}
-      {-fd <- open "example1.bin"-}
-      putStrLn $ simpleHex bs
+      putStrLn $ "=== HEX ==="
+      putStrLn $ Hexdump.prettyHex bs
       BS.writeFile "example1.bin" bs
       system "hexdump example1.bin"
       return ()
+    Right _ -> return ()
 
   putStrLn "Done"
   return ()
