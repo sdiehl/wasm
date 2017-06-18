@@ -8,9 +8,10 @@ module Language.Wasm.Binary (
   magicHex,
 ) where
 
-import Data.ByteString
-import Data.Serialize
 import Data.Word
+import Data.Serialize
+import Data.ByteString
+
 import GHC.Stack
 
 import Language.Wasm.Core
@@ -26,8 +27,6 @@ https://webassembly.github.io/spec/binary/instructions.html
 -------------------------------------------------------------------------------
 -- Binary Writer
 -------------------------------------------------------------------------------
-
-type U32 = Word32
 
 magic :: ByteString
 magic = "\0asm"
@@ -79,12 +78,11 @@ instance Serialize WasmSectionType where
 
 instance Serialize Type where
   put t = putWord8 $ case t of
-    Void -> 0
-    I32  -> 0x7f
-    I64  -> 0x7e
-    F32  -> 0x7d
-    F64  -> 0x7c
-    All  -> 0x70
+    I32      -> 0x7f
+    I64      -> 0x7e
+    F32      -> 0x7d
+    F64      -> 0x7c
+    FuncType -> 0x60
   get = error "get Type"
 
 instance Serialize Decl where
@@ -345,6 +343,8 @@ instance Serialize Expr where
         F64 -> do
           putWord8 0x44
           put val
+
+        FuncType -> todo
 
     Lit y              -> todo
     Load y1 y2         -> todo

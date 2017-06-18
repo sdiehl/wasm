@@ -75,7 +75,7 @@ real               { TReal $$ }
 'copysign'         { TKey "copysign" }
 
 'nop'              { TKey "nop" }
-'unreachable'      { TKey "nop" }
+'unreachable'      { TKey "unreachable" }
 
 
 %left 'and' 'or' 'xor'
@@ -92,7 +92,7 @@ prog :: { [Decl] }
 
 name :: { Name }
  : ident                          { Name (T.pack $1) }
- | integer                        { Name (T.pack (show $1)) }
+ | integer                        { UnName (fromIntegral $1) }
 
 top :: { Decl }
  : mod                            { ModDecl $1 }
@@ -106,7 +106,6 @@ typ :: { Type }
  | 'i64'                           { I64 }
  | 'f32'                           { F32 }
  | 'f64'                           { F64 }
- | 'void'                          { Void }
 
 param :: { Param }
  : '(' 'param' name typ ')'       { Param (Just $3) $4 }
@@ -204,3 +203,5 @@ happyError :: ParseM a
 happyError = ParseM $ \(S _ toks) -> Left $ ParseError $ "happyError: " ++ show toks
 
 }
+
+-- vim: set filetype=happy:

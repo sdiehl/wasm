@@ -130,12 +130,11 @@ instance Pretty Param where
 
 instance Pretty Type where
   pretty ty = text $ case ty of
-    Void -> "void"
-    I32  -> "i32"
-    I64  -> "i64"
-    F32  -> "f32"
-    F64  -> "f64"
-    All  -> "all"
+    I32      -> "i32"
+    I64      -> "i64"
+    F32      -> "f32"
+    F64      -> "f64"
+    FuncType -> "func"
 
 display :: Pretty a => a -> String
 display x = displayS (renderPretty 0.4 180 (pretty x)) ""

@@ -13,12 +13,24 @@ module Language.Wasm.Syntax (
   BinOp(..),
   RelOp(..),
   ConvertOp(..),
+
+  U32,
+  F32,
+  F64,
+  I32,
+  I64,
 ) where
 
 import Data.Int
 import Data.Word
 import Data.String
 import qualified Data.Text as T
+
+type U32 = Word32
+type F32 = Float
+type F64 = Double
+type I32 = Int32
+type I64 = Int64
 
 data Name 
   = Name T.Text
@@ -202,12 +214,10 @@ data Param
   | Body Expr
   deriving (Eq, Show)
 
-
 data Type
-  = Void
-  | I32
+  = I32
   | I64
   | F32
   | F64
-  | All
+  | FuncType
   deriving (Eq, Show)

@@ -192,3 +192,5 @@ scan str = go (initialAlexInput str) where
       AlexToken inp' len act -> act (take len (input inp)) : go inp'
 
 }
+
+-- vim: set filetype=alex:
