@@ -9,6 +9,8 @@ Haskell WebAssembly
 
 A portable machine architecture for the web.
 
+Warning, still a *big* work in progress.
+
 > Define a portable, size- and load-time-efficient binary format to serve as a
 > compilation target which can be compiled to execute at native speed by taking
 > advantage of common hardware capabilities available on a wide range of
@@ -63,7 +65,7 @@ $ stack install
 ```
 
 ```bash
-$ wasm test/fac.wast
+$ wasm fac.wasm
 ```
 
 ### Build with `cabal`

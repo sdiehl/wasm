@@ -1,11 +1,17 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Language.Wasm.Binary where
+module Language.Wasm.Binary (
+  encode,
+  decode,
+  magic,
+  magicHex,
+) where
 
 import Data.ByteString
 import Data.Serialize
 import Data.Word
+import GHC.Stack
 
 import Language.Wasm.Core
 
@@ -20,6 +26,8 @@ https://webassembly.github.io/spec/binary/instructions.html
 -------------------------------------------------------------------------------
 -- Binary Writer
 -------------------------------------------------------------------------------
+
+type U32 = Word32
 
 magic :: ByteString
 magic = "\0asm"
@@ -312,7 +320,9 @@ instance Serialize Expr where
     BrIf y1 y2 y3      -> todo
     Loop y1 y2 y3      -> todo
     Br y1 y2           -> todo
-    Return y           -> todo
+
+    Return y           -> do
+      putWord8 0x0f
 
     Call fn args       -> do
       putWord8 0x12
@@ -349,7 +359,9 @@ instance Serialize Expr where
       put y1
 
     LoadExtend y1 y2   -> todo
+
     StoreWrap y1 y2 y3 -> todo
+
     Un op ty x  -> do
       unOp (op, ty)
       put x
@@ -360,7 +372,9 @@ instance Serialize Expr where
       put x2
 
     Sel y1 y2 y3 y4    -> todo
+
     Convert op ty x      -> todo
+
     Host y1 y2         -> todo
 
     Bin op ty x1 x2 -> do
@@ -381,7 +395,7 @@ instance Serialize Export where
 
 instance Serialize Name where
   put (UnName x) = putWord32le x
-  put (Name x) = todo
+  put (Name x) = putWord32le 0x00 -- XXX
   get = UnName <$> getWord32le
 
 instance Serialize Import where
@@ -414,5 +428,8 @@ instance Serialize Module where
 
   get = error "get Module"
 
-todo :: t
+todo :: HasCallStack => t
 todo = error "Not implemented"
+
+impossible :: HasCallStack => t
+impossible = error "Impossible"

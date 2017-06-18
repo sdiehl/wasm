@@ -10,4 +10,4 @@ includes
 .history
 .stack-work
 Setup.hs
-test/output
+tests/spec/output

@@ -38,8 +38,8 @@ binaryWriter :: [(FilePath, String)] -> TestTree
 binaryWriter inputs = testGroup "Binary Writer" $ do
   (path, contents) <- inputs
   let
-    outf = "tests/spec/output" </> replaceExtension (takeFileName path) "wasm"
-    astf = "tests/spec/output" </> replaceExtension (takeFileName path) "ast"
+    outf    = "tests/spec/output" </> replaceExtension (takeFileName path) "wasm"
+    astf    = "tests/spec/output" </> replaceExtension (takeFileName path) "ast"
     goldenf = "tests/spec/golden" </> replaceExtension (takeFileName path) "wasm"
     action = do
       let ast = (parse contents)
