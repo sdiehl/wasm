@@ -1,14 +1,28 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Language.Wasm.Binary where
+module Language.Wasm.Binary (
+  encode,
+  decode,
+  magic,
+  magicHex,
+) where
 
-import Data.ByteString
-import Data.Serialize
 import Data.Word
+import Data.Serialize
+import Data.ByteString
+
+import GHC.Stack
 
 import Language.Wasm.Core
 
+{-
+
+See:
+
+https://webassembly.github.io/spec/binary/instructions.html
+
+-}
 
 -------------------------------------------------------------------------------
 -- Binary Writer
@@ -64,12 +78,11 @@ instance Serialize WasmSectionType where
 
 instance Serialize Type where
   put t = putWord8 $ case t of
-    Void -> 0
-    I32  -> 1
-    I64  -> 2
-    F32  -> 4
-    F64  -> 8
-    All  -> 15
+    I32      -> 0x7f
+    I64      -> 0x7e
+    F32      -> 0x7d
+    F64      -> 0x7c
+    FuncType -> 0x60
   get = error "get Type"
 
 instance Serialize Decl where
@@ -111,26 +124,26 @@ relOp (op, I32) = putWord8 $ case op of
   Eq  -> 0x46
   Ne  -> 0x47
   LtS -> 0x48
-  LtU-> 0x49
+  LtU -> 0x49
   GtS -> 0x4a
-  GtU-> 0x4b
+  GtU -> 0x4b
   LeS -> 0x4c
-  LeU-> 0x4d
+  LeU -> 0x4d
   GeS -> 0x4e
-  GeU-> 0x4f
+  GeU -> 0x4f
   _   -> todo -- not supported
 relOp (op, I64) = putWord8 $ case op of
   Eqz -> 0x50
   Eq  -> 0x51
   Ne  -> 0x52
   LtS -> 0x53
-  LtU-> 0x54
+  LtU -> 0x54
   GtS -> 0x55
-  GtU-> 0x56
+  GtU -> 0x56
   LeS -> 0x57
-  LeU-> 0x58
+  LeU -> 0x58
   GeS -> 0x59
-  GeU-> 0x5a
+  GeU -> 0x5a
   _   -> todo -- not supported
 relOp (op, F32) = putWord8 $ case op of
   Eq -> 0x5b
@@ -285,10 +298,16 @@ instance Serialize Value where
 
 instance Serialize Expr where
   put x = case x of
-    Nop                -> todo
-    Unreachable        -> todo
-    Block y1 y2        -> todo
-    If y1 y2           -> todo
+    Unreachable        -> putWord8 0x00
+    Nop                -> putWord8 0x01
+
+    Block y1 y2        -> do
+      put y2
+      putWord8 0x0b
+
+    If y1 y2           -> do
+      put y2
+      putWord8 0x0b
 
     IfElse cond tr fl  -> do
       putWord8 0x4
@@ -299,7 +318,9 @@ instance Serialize Expr where
     BrIf y1 y2 y3      -> todo
     Loop y1 y2 y3      -> todo
     Br y1 y2           -> todo
-    Return y           -> todo
+
+    Return y           -> do
+      putWord8 0x0f
 
     Call fn args       -> do
       putWord8 0x12
@@ -308,23 +329,39 @@ instance Serialize Expr where
     Const ty val       -> do
       case ty of
         I32 -> do
-          putWord8 0x09
+          putWord8 0x41
           put val
 
         I64 -> do
-          putWord8 0x0b
+          putWord8 0x42
           put val
+
+        F32 -> do
+          putWord8 0x43
+          put val
+
+        F64 -> do
+          putWord8 0x44
+          put val
+
+        FuncType -> todo
 
     Lit y              -> todo
     Load y1 y2         -> todo
     Store y1 y2        -> todo
 
     GetLocal y         -> do
-      putWord8 0x0e
+      putWord8 0x20
+      put y
 
-    SetLocal y1 y2     -> todo
+    SetLocal y1 y2     -> do
+      putWord8 0x21
+      put y1
+
     LoadExtend y1 y2   -> todo
+
     StoreWrap y1 y2 y3 -> todo
+
     Un op ty x  -> do
       unOp (op, ty)
       put x
@@ -335,7 +372,9 @@ instance Serialize Expr where
       put x2
 
     Sel y1 y2 y3 y4    -> todo
+
     Convert op ty x      -> todo
+
     Host y1 y2         -> todo
 
     Bin op ty x1 x2 -> do
@@ -353,6 +392,11 @@ instance Serialize Export where
     putWord8 0x73
     putWord8 0x74
   get = error "get Type"
+
+instance Serialize Name where
+  put (UnName x) = putWord32le x
+  put (Name x) = putWord32le 0x00 -- XXX
+  get = UnName <$> getWord32le
 
 instance Serialize Import where
   put = error "get Type"
@@ -384,5 +428,8 @@ instance Serialize Module where
 
   get = error "get Module"
 
-todo :: t
+todo :: HasCallStack => t
 todo = error "Not implemented"
+
+impossible :: HasCallStack => t
+impossible = error "Impossible"

@@ -9,6 +9,8 @@ Haskell WebAssembly
 
 A portable machine architecture for the web.
 
+Warning, still a *big* work in progress.
+
 > Define a portable, size- and load-time-efficient binary format to serve as a
 > compilation target which can be compiled to execute at native speed by taking
 > advantage of common hardware capabilities available on a wide range of
@@ -63,7 +65,7 @@ $ stack install
 ```
 
 ```bash
-$ wasm test/fac.wast
+$ wasm fac.wasm
 ```
 
 ### Build with `cabal`
@@ -141,6 +143,8 @@ Core modules
 
 #### Example
 
+**Factorial**
+
 ```scheme
 (module
 
@@ -155,19 +159,31 @@ Core modules
 )
 ```
 
+Generates:
+
+```
+Length: 47 (0x2f) bytes
+0000:   00 61 73 6d  01 01 00 7f  02 01 09 00  00 15 00 00   .asm............
+0010:   00 1a 00 04  51 20 00 00  00 00 42 00  42 01 7e 20   ....Q ....B.B.~ 
+0020:   00 00 00 00  12 7d 20 00  00 00 00 42  01 06 00      .....} ....B...
+```
+
+
+**Constants**
 
 ```scheme
 (module
   (export "test" 0)
   (func (result i32)
-    (i32.add (i32.const 1) (i32.const 2))))
+    (i32.add (i32.const 1) (i32.const 2)))
+)
 ```
 
 
-Will generate
+Generates
 
 ```
-0000000 0101 0100 0102 0009 1500 0000 0500 4000
-0000010 0109 0209 7406 7365 0074               
-000001a
+Length: 23 (0x17) bytes
+0000:   00 61 73 6d  01 01 00 7f  02 01 09 00  00 15 00 00   .asm............
+0010:   00 02 00 41  00 06 00                                ...A...
 ```

@@ -1,3 +1,2 @@
-module Language.Wasm
-    (
-    ) where
+module Language.Wasm (
+) where

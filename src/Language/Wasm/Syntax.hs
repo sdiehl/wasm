@@ -13,14 +13,32 @@ module Language.Wasm.Syntax (
   BinOp(..),
   RelOp(..),
   ConvertOp(..),
+
+  U32,
+  F32,
+  F64,
+  I32,
+  I64,
 ) where
 
 import Data.Int
+import Data.Word
 import Data.String
 import qualified Data.Text as T
 
-newtype Name = Name T.Text
-  deriving (Eq, Ord, Show, IsString)
+type U32 = Word32
+type F32 = Float
+type F64 = Double
+type I32 = Int32
+type I64 = Int64
+
+data Name 
+  = Name T.Text
+  | UnName Word32
+  deriving (Eq, Ord, Show)
+
+instance IsString Name where
+  fromString = Name . T.pack
 
 data Expr
   = Nop
@@ -85,7 +103,6 @@ data BinOp
   | CopySign
   | Min
   | Max
-
   deriving (Eq, Show)
 
 data SelOp
@@ -197,12 +214,10 @@ data Param
   | Body Expr
   deriving (Eq, Show)
 
-
 data Type
-  = Void
-  | I32
+  = I32
   | I64
   | F32
   | F64
-  | All
+  | FuncType
   deriving (Eq, Show)
