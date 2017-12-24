@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+ghcid --command="stack repl wasm:lib --no-docker --silent"

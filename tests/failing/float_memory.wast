@@ -1,64 +1,157 @@
-;; x87 loads and stores canonicalize some bit patterns. Test that wasm loads and
-;; stores don't do this.
+;; Test that floating-point load and store are bit-preserving.
+
+;; Test that load and store do not canonicalize NaNs as x87 does.
 
 (module
-  (memory 4 4)
+  (memory (data "\00\00\a0\7f"))
 
-  (func $store_i32 (param $x i32) (result i32)
-    (i32.store (i32.const 0) (get_local $x)))
-
-  (func $load_i32 (result i32)
-    (i32.load (i32.const 0)))
-
-  (func $store_f32 (param $x f32) (result f32)
-    (f32.store (i32.const 0) (get_local $x)))
-
-  (func $load_f32 (result f32)
-    (f32.load (i32.const 0)))
-
-  (export "store_i32" $store_i32)
-  (export "load_i32" $load_i32)
-  (export "store_f32" $store_f32)
-  (export "load_f32" $load_f32)
+  (func (export "f32.load") (result f32) (f32.load (i32.const 0)))
+  (func (export "i32.load") (result i32) (i32.load (i32.const 0)))
+  (func (export "f32.store") (f32.store (i32.const 0) (f32.const nan:0x200000)))
+  (func (export "i32.store") (i32.store (i32.const 0) (i32.const 0x7fa00000)))
+  (func (export "reset") (i32.store (i32.const 0) (i32.const 0)))
 )
 
-(assert_return (invoke "store_i32" (i32.const 0x7f800001)) (i32.const 0x7f800001))
-(assert_return (invoke "load_f32") (f32.const nan:0x000001))
-(assert_return (invoke "store_i32" (i32.const 0x80000000)) (i32.const 0x80000000))
-(assert_return (invoke "load_f32") (f32.const -0.0))
-
-(assert_return (invoke "store_f32" (f32.const nan:0x000001)) (f32.const nan:0x000001))
-(assert_return (invoke "load_i32") (i32.const 0x7f800001))
-(assert_return (invoke "store_f32" (f32.const -0.0)) (f32.const -0.0))
-(assert_return (invoke "load_i32") (i32.const 0x80000000))
+(assert_return (invoke "i32.load") (i32.const 0x7fa00000))
+(assert_return (invoke "f32.load") (f32.const nan:0x200000))
+(invoke "reset")
+(assert_return (invoke "i32.load") (i32.const 0x0))
+(assert_return (invoke "f32.load") (f32.const 0.0))
+(invoke "f32.store")
+(assert_return (invoke "i32.load") (i32.const 0x7fa00000))
+(assert_return (invoke "f32.load") (f32.const nan:0x200000))
+(invoke "reset")
+(assert_return (invoke "i32.load") (i32.const 0x0))
+(assert_return (invoke "f32.load") (f32.const 0.0))
+(invoke "i32.store")
+(assert_return (invoke "i32.load") (i32.const 0x7fa00000))
+(assert_return (invoke "f32.load") (f32.const nan:0x200000))
 
 (module
-  (memory 8 8)
+  (memory (data "\00\00\00\00\00\00\f4\7f"))
 
-  (func $store_i64 (param $x i64) (result i64)
-    (i64.store (i32.const 0) (get_local $x)))
-
-  (func $load_i64 (result i64)
-    (i64.load (i32.const 0)))
-
-  (func $store_f64 (param $x f64) (result f64)
-    (f64.store (i32.const 0) (get_local $x)))
-
-  (func $load_f64 (result f64)
-    (f64.load (i32.const 0)))
-
-  (export "store_i64" $store_i64)
-  (export "load_i64" $load_i64)
-  (export "store_f64" $store_f64)
-  (export "load_f64" $load_f64)
+  (func (export "f64.load") (result f64) (f64.load (i32.const 0)))
+  (func (export "i64.load") (result i64) (i64.load (i32.const 0)))
+  (func (export "f64.store") (f64.store (i32.const 0) (f64.const nan:0x4000000000000)))
+  (func (export "i64.store") (i64.store (i32.const 0) (i64.const 0x7ff4000000000000)))
+  (func (export "reset") (i64.store (i32.const 0) (i64.const 0)))
 )
 
-(assert_return (invoke "store_i64" (i64.const 0x7ff0000000000001)) (i64.const 0x7ff0000000000001))
-(assert_return (invoke "load_f64") (f64.const nan:0x0000000000001))
-(assert_return (invoke "store_i64" (i64.const 0x8000000000000000)) (i64.const 0x8000000000000000))
-(assert_return (invoke "load_f64") (f64.const -0.0))
+(assert_return (invoke "i64.load") (i64.const 0x7ff4000000000000))
+(assert_return (invoke "f64.load") (f64.const nan:0x4000000000000))
+(invoke "reset")
+(assert_return (invoke "i64.load") (i64.const 0x0))
+(assert_return (invoke "f64.load") (f64.const 0.0))
+(invoke "f64.store")
+(assert_return (invoke "i64.load") (i64.const 0x7ff4000000000000))
+(assert_return (invoke "f64.load") (f64.const nan:0x4000000000000))
+(invoke "reset")
+(assert_return (invoke "i64.load") (i64.const 0x0))
+(assert_return (invoke "f64.load") (f64.const 0.0))
+(invoke "i64.store")
+(assert_return (invoke "i64.load") (i64.const 0x7ff4000000000000))
+(assert_return (invoke "f64.load") (f64.const nan:0x4000000000000))
 
-(assert_return (invoke "store_f64" (f64.const nan:0x0000000000001)) (f64.const nan:0x0000000000001))
-(assert_return (invoke "load_i64") (i64.const 0x7ff0000000000001))
-(assert_return (invoke "store_f64" (f64.const -0.0)) (f64.const -0.0))
-(assert_return (invoke "load_i64") (i64.const 0x8000000000000000))
+;; Test that unaligned load and store do not canonicalize NaNs.
+
+(module
+  (memory (data "\00\00\00\a0\7f"))
+
+  (func (export "f32.load") (result f32) (f32.load (i32.const 1)))
+  (func (export "i32.load") (result i32) (i32.load (i32.const 1)))
+  (func (export "f32.store") (f32.store (i32.const 1) (f32.const nan:0x200000)))
+  (func (export "i32.store") (i32.store (i32.const 1) (i32.const 0x7fa00000)))
+  (func (export "reset") (i32.store (i32.const 1) (i32.const 0)))
+)
+
+(assert_return (invoke "i32.load") (i32.const 0x7fa00000))
+(assert_return (invoke "f32.load") (f32.const nan:0x200000))
+(invoke "reset")
+(assert_return (invoke "i32.load") (i32.const 0x0))
+(assert_return (invoke "f32.load") (f32.const 0.0))
+(invoke "f32.store")
+(assert_return (invoke "i32.load") (i32.const 0x7fa00000))
+(assert_return (invoke "f32.load") (f32.const nan:0x200000))
+(invoke "reset")
+(assert_return (invoke "i32.load") (i32.const 0x0))
+(assert_return (invoke "f32.load") (f32.const 0.0))
+(invoke "i32.store")
+(assert_return (invoke "i32.load") (i32.const 0x7fa00000))
+(assert_return (invoke "f32.load") (f32.const nan:0x200000))
+
+(module
+  (memory (data "\00\00\00\00\00\00\00\f4\7f"))
+
+  (func (export "f64.load") (result f64) (f64.load (i32.const 1)))
+  (func (export "i64.load") (result i64) (i64.load (i32.const 1)))
+  (func (export "f64.store") (f64.store (i32.const 1) (f64.const nan:0x4000000000000)))
+  (func (export "i64.store") (i64.store (i32.const 1) (i64.const 0x7ff4000000000000)))
+  (func (export "reset") (i64.store (i32.const 1) (i64.const 0)))
+)
+
+(assert_return (invoke "i64.load") (i64.const 0x7ff4000000000000))
+(assert_return (invoke "f64.load") (f64.const nan:0x4000000000000))
+(invoke "reset")
+(assert_return (invoke "i64.load") (i64.const 0x0))
+(assert_return (invoke "f64.load") (f64.const 0.0))
+(invoke "f64.store")
+(assert_return (invoke "i64.load") (i64.const 0x7ff4000000000000))
+(assert_return (invoke "f64.load") (f64.const nan:0x4000000000000))
+(invoke "reset")
+(assert_return (invoke "i64.load") (i64.const 0x0))
+(assert_return (invoke "f64.load") (f64.const 0.0))
+(invoke "i64.store")
+(assert_return (invoke "i64.load") (i64.const 0x7ff4000000000000))
+(assert_return (invoke "f64.load") (f64.const nan:0x4000000000000))
+
+;; Test that load and store do not canonicalize NaNs as some JS engines do.
+
+(module
+  (memory (data "\01\00\d0\7f"))
+
+  (func (export "f32.load") (result f32) (f32.load (i32.const 0)))
+  (func (export "i32.load") (result i32) (i32.load (i32.const 0)))
+  (func (export "f32.store") (f32.store (i32.const 0) (f32.const nan:0x500001)))
+  (func (export "i32.store") (i32.store (i32.const 0) (i32.const 0x7fd00001)))
+  (func (export "reset") (i32.store (i32.const 0) (i32.const 0)))
+)
+
+(assert_return (invoke "i32.load") (i32.const 0x7fd00001))
+(assert_return (invoke "f32.load") (f32.const nan:0x500001))
+(invoke "reset")
+(assert_return (invoke "i32.load") (i32.const 0x0))
+(assert_return (invoke "f32.load") (f32.const 0.0))
+(invoke "f32.store")
+(assert_return (invoke "i32.load") (i32.const 0x7fd00001))
+(assert_return (invoke "f32.load") (f32.const nan:0x500001))
+(invoke "reset")
+(assert_return (invoke "i32.load") (i32.const 0x0))
+(assert_return (invoke "f32.load") (f32.const 0.0))
+(invoke "i32.store")
+(assert_return (invoke "i32.load") (i32.const 0x7fd00001))
+(assert_return (invoke "f32.load") (f32.const nan:0x500001))
+
+(module
+  (memory (data "\01\00\00\00\00\00\fc\7f"))
+
+  (func (export "f64.load") (result f64) (f64.load (i32.const 0)))
+  (func (export "i64.load") (result i64) (i64.load (i32.const 0)))
+  (func (export "f64.store") (f64.store (i32.const 0) (f64.const nan:0xc000000000001)))
+  (func (export "i64.store") (i64.store (i32.const 0) (i64.const 0x7ffc000000000001)))
+  (func (export "reset") (i64.store (i32.const 0) (i64.const 0)))
+)
+
+(assert_return (invoke "i64.load") (i64.const 0x7ffc000000000001))
+(assert_return (invoke "f64.load") (f64.const nan:0xc000000000001))
+(invoke "reset")
+(assert_return (invoke "i64.load") (i64.const 0x0))
+(assert_return (invoke "f64.load") (f64.const 0.0))
+(invoke "f64.store")
+(assert_return (invoke "i64.load") (i64.const 0x7ffc000000000001))
+(assert_return (invoke "f64.load") (f64.const nan:0xc000000000001))
+(invoke "reset")
+(assert_return (invoke "i64.load") (i64.const 0x0))
+(assert_return (invoke "f64.load") (f64.const 0.0))
+(invoke "i64.store")
+(assert_return (invoke "i64.load") (i64.const 0x7ffc000000000001))
+(assert_return (invoke "f64.load") (f64.const nan:0xc000000000001))
