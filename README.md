@@ -16,12 +16,12 @@ Warning, still a *big* work in progress.
 
 Core modules
 
-* [Entry](https://github.com/sdiehl/wasm/blob/master/src/Entry.hs) - Driver
-* [Syntax](https://github.com/sdiehl/wasm/blob/master/src/Syntax.hs) - Frontend AST
-* [Parser](https://github.com/sdiehl/wasm/blob/master/src/Parser.y) - Parser
-* [Lexer](https://github.com/sdiehl/wasm/blob/master/src/Lexer.x) - Lexer
-* [Pretty](https://github.com/sdiehl/wasm/blob/master/src/Pretty.hs) - Textual Format
-* [Binary](https://github.com/sdiehl/wasm/blob/master/src/Binary.hs) - Binary Format
+* [Entry](https://github.com/sdiehl/wasm/blob/master/src/Language/Wasm/Entry.hs) - Driver
+* [Syntax](https://github.com/sdiehl/wasm/blob/master/src/Language/Wasm/Syntax.hs) - Frontend AST
+* [Parser](https://github.com/sdiehl/wasm/blob/master/src/Language/Wasm/Parser.y) - Parser
+* [Lexer](https://github.com/sdiehl/wasm/blob/master/src/Language/Wasm/Lexer.x) - Lexer
+* [Pretty](https://github.com/sdiehl/wasm/blob/master/src/Language/Wasm/Pretty.hs) - Textual Format
+* [Binary](https://github.com/sdiehl/wasm/blob/master/src/Language/Wasm/Binary.hs) - Binary Format
 * [Test](https://github.com/sdiehl/wasm/blob/master/src/Test.hs) - Test suite
 
 #### Usage
