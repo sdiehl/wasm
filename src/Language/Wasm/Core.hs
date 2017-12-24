@@ -57,9 +57,11 @@ toCoreFunc (Syn.Func ftype params _) = Func ftype (length params) body
   where
     body = [f | Syn.Body f <- params]
     result = head [f | Syn.Result f <- params]
+toCoreFunc _ = error "not impelemented"
 
 toCoreExport :: Syn.Func -> Export
 toCoreExport (Syn.Export fname val) = Export (undefined fname) (undefined fname)
+toCoreExport _ = error "not impelemented"
 
 toCoreImport :: Syn.Func -> Import
 toCoreImport _ = undefined

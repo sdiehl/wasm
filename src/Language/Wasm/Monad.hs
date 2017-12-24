@@ -26,7 +26,7 @@ runParseM m ts = fst <$> unParseM m (S cs ts')
 instance Functor ParseM where
   fmap f m = ParseM $
     fmap (\(x, s') -> (f x, s')) . unParseM m
-    
+
 instance Monad ParseM where
   return x = ParseM $ \s -> Right (x, s)
   m >>= k  = ParseM $ \s -> do

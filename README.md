@@ -12,7 +12,8 @@ targeting WebAssembly.
 
 Warning, still a *big* work in progress.
 
-#### Codebase
+Codebase
+--------
 
 Core modules
 
@@ -24,6 +25,12 @@ Core modules
 * [Binary](https://github.com/sdiehl/wasm/blob/master/src/Language/Wasm/Binary.hs) - Binary Format
 * [Test](https://github.com/sdiehl/wasm/blob/master/src/Test.hs) - Test suite
 
-#### Usage
+Usage
+-----
 
-TODO
+```haskell
+import Language.Wasm.Syntax
+import Language.Wasm.Binary
+import Language.Wasm.Parser
+```
+

@@ -21,8 +21,6 @@ library:
   - -fwarn-unused-imports
   exposed-modules:
   - Language.Wasm.Core
-  - Language.Wasm.Monad
-  - Language.Wasm.Position
   - Language.Wasm.Pretty
   - Language.Wasm.Syntax
   - Language.Wasm.Binary
@@ -30,6 +28,8 @@ library:
   - Language.Wasm.Parser
   - Language.Wasm.Entry
   other-modules:
+  - Language.Wasm.Monad
+  - Language.Wasm.Position
   dependencies:
   - array                >= 0.5  && <0.6
   - text                 >= 1.1

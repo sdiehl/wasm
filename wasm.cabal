@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2d17c595a1ca557796f734b1eec89ec79596ee84b6e4fc96170e7b2d084fbea9
+-- hash: 9f4c705c2f82e92dc4d68087fe5387cf1e6e87ff3a0d416d673eda65891e0fbe
 
 name:           wasm
 version:        0.1
@@ -45,8 +45,6 @@ library
     , happy >=1.9.4
   exposed-modules:
       Language.Wasm.Core
-      Language.Wasm.Monad
-      Language.Wasm.Position
       Language.Wasm.Pretty
       Language.Wasm.Syntax
       Language.Wasm.Binary
@@ -54,8 +52,8 @@ library
       Language.Wasm.Parser
       Language.Wasm.Entry
   other-modules:
-      Language.Wasm
-      Paths_wasm
+      Language.Wasm.Monad
+      Language.Wasm.Position
   default-language: Haskell2010
 
 executable wasm

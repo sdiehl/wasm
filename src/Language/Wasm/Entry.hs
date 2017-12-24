@@ -11,7 +11,6 @@ import Language.Wasm.Pretty
 import Language.Wasm.Syntax
 import Language.Wasm.Binary
 
-import Data.Serialize
 import System.Environment
 import Text.PrettyPrint.ANSI.Leijen
 import qualified Hexdump
