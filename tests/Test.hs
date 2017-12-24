@@ -6,8 +6,8 @@ import Control.Monad.Trans
 import Data.Either
 import Data.Serialize
 
-import Language.Wasm.Binary
 import Language.Wasm.Core
+import Language.Wasm.Binary
 import Language.Wasm.Pretty
 import Language.Wasm.Entry (parse)
 

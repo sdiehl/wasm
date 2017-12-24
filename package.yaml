@@ -28,8 +28,8 @@ library:
   - Language.Wasm.Binary
   - Language.Wasm.Lexer
   - Language.Wasm.Parser
-  exposed-modules:
   - Language.Wasm.Entry
+  other-modules:
   dependencies:
   - array                >= 0.5  && <0.6
   - text                 >= 1.1
